@@ -87,7 +87,7 @@ void initFile(void)
   }
   Serial.println("SD card initialized");
 
-  file_string="datalog"+String(file_number)+".txt";  // global variable for now
+  file_string="nano-"+String(file_number)+".txt";  // global variable for now
 
   // check to see if the file already exists on the SD card
   if (SD.exists(file_string)&&delete_file)
@@ -121,7 +121,7 @@ void initFile(void)
   }
   // if the file did not open, change the header message to an error:
   else {
-    Serial.println("Error opening file: "+file_string);
+    Serial.println("Error Opening File: "+file_string);
   }
 
   // write the string to the serial output for debugging
