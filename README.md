@@ -92,7 +92,7 @@ This project contains MCU programs to get sensor data and write it to a .txt fil
 
 #### testing 
 
-  Listen to the serial connection with minicom. `ACM0` refers to a custom config file made with minicom.
+  Listen to the serial connection with minicom. `USB0` refers to a custom config file made with minicom.
 ```  
   minicom USB0      
 ```
