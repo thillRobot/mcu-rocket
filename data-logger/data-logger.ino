@@ -38,7 +38,7 @@ void setup() {
   initFile();
 
   //Serial.begin(115200);
-  Serial.println("Data Logger Nano \n Initializing"); Serial.println("");
+  //Serial.println("Data Logger Nano \n Initializing"); Serial.println("");
 
   /* Initialize the sensor */
   //Serial.println("Debug 4");
@@ -85,7 +85,7 @@ void initFile(void)
     Serial.println("SD card failed or not present");
     while (1); // wait forever if card fails?
   }
-  Serial.println("SD card initialized");
+  //Serial.println("SD card initialized");
 
   file_string="nano-"+String(file_number)+".txt";  // global variable for now
 
@@ -236,45 +236,44 @@ void printEvent(sensors_event_t* event) {
     x = event->acceleration.x;
     y = event->acceleration.y;
     z = event->acceleration.z;
-    String buffer = "Accelerometer:";
+    buffer = "Accelerometer:"+String(x)+","+String(y)+","+String(z);
   }
   else if (event->type == SENSOR_TYPE_ORIENTATION) {
     x = event->orientation.x;
     y = event->orientation.y;
     z = event->orientation.z;
-    buffer += "Orientation:";
+   buffer += "Orientation:"+String(x)+","+String(y)+","+String(z);
   }
   else if (event->type == SENSOR_TYPE_MAGNETIC_FIELD) {
     x = event->magnetic.x;
     y = event->magnetic.y;
     z = event->magnetic.z;
-    buffer += "MagneticField:";
+    buffer += "MagneticField:"+String(x)+","+String(y)+","+String(z);
   }
   else if (event->type == SENSOR_TYPE_GYROSCOPE) {
     x = event->gyro.x;
     y = event->gyro.y;
     z = event->gyro.z;
-    buffer += "SENSOR_TYPE_GYROSCOPE:";
+    buffer += "SENSOR_TYPE_GYROSCOPE:"+String(x)+","+String(y)+","+String(z);
   }
   else if (event->type == SENSOR_TYPE_ROTATION_VECTOR) {
     x = event->gyro.x;
     y = event->gyro.y;
     z = event->gyro.z;
-    buffer += "RotationVector:";
+    buffer += "RotationVector:"+String(x)+","+String(y)+","+String(z);
   }
   else if (event->type == SENSOR_TYPE_LINEAR_ACCELERATION) {
     x = event->acceleration.x;
     y = event->acceleration.y;
     z = event->acceleration.z;
-    buffer += "LinearAcceleration:";
+    buffer += "LinearAcceleration:"+String(x)+","+String(y)+","+String(z);
   }
   else {
-    //Serial.print("Unknown:");
-    buffer += "Unknown:";
+    buffer += "Unknown:"+String(x)+","+String(y)+","+String(z);
   }
   
   // append the data feild to the string separated by commas
-  buffer += String(x)+","+String(y)+","+String(z);
+  //buffer += String(x)+","+String(y)+","+String(z);
 
   /// open the file and instanstiate a file identifier object
   File file_id = SD.open(file_string, FILE_WRITE);
