@@ -18,7 +18,7 @@
 //#define BNO055_SAMPLERATE_DELAY_MS (100)
 #define LOOP_DELAY_MS (100)
 
-const int chipSelect = 7; // 10 for nano, 7 used on MKR, not setting this can cause the SD to write to ALMOST work
+const int chipSelect = 7; // 7 used on MKR, not setting this can cause the SD to write to ALMOST work
 int entry_number = 0;     // number of the first row in the data file 
 int file_number = 1;      // change this number to create a new file
 String file_string;       // global variables - should this be done differently?

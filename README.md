@@ -74,20 +74,7 @@ This project contains MCU programs to get sensor data and write it to a .txt fil
             (nc)3v 
     Gnd--------Gnd
 ```
-#### Connections to MEGA2560
-```
-  MEGA | MicroSD Breakout
-  
-  SS(53)-------CS (set this pin in software?)
-  SCK(52)-----CLK 
-  MOSI(51)-----D1
-  MISO(50)-----D0
-  
-  5v-----------5v
-           (nc)3v 
-  Gnd---------Gnd
-``` 
-  
+
 #### Compile and Upload with `arduino-cli` for MKR1010wifi
 
   Check for a connected board.
@@ -96,7 +83,7 @@ This project contains MCU programs to get sensor data and write it to a .txt fil
 ````
   Compile the script.
 ```  
-  arduino-cli compile --fqbn arduino:samd:mkrwifi1010 data_logger_mkr.ino 
+  arduino-cli compile --fqbn arduino:samd:mkrwifi1010 datdata_logger_mkr.ino 
 ```
   Upload the script to the board.
 ```
