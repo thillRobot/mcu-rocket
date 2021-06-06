@@ -8,11 +8,8 @@ This project contains MCU programs to get sensor data and write it to a .txt fil
   This program get sensor data and writes it to a .csv file on an SD card.
   
 ## Hardware Information
-
-  Note: Choose the appropriate branch for the MCU that is being used. 
-    
+  
 ### Available Hardware
-  - Arduion MKR1010wifi 
   - Arduino Nano 3.0 328p
   - BNO055 - Absolute Orientation Sensor
   - GY-521 (MPU 6050 MEMS) - 3 Axis Accelerometer, 3 Axis Gyroscope, and Temperature Sensor 
@@ -47,6 +44,18 @@ This project contains MCU programs to get sensor data and write it to a .txt fil
        |         *| VIN
        +----------+
 ``` 
+#### Conections to MKR1010wifi     
+```
+  MKR | BNO055 Sensor Board
+  
+  SDA (11)-----SDA
+  SCL (12)-----SCL
+  
+  5v-----------Vin
+            (nc)3v 
+  Gnd----------Gnd     
+```
+
 #### Conections to NANO328p     
 ```
   NANO | BNO055 Sensor Board
@@ -56,12 +65,39 @@ This project contains MCU programs to get sensor data and write it to a .txt fil
   
   5v-----------Vin
             (nc)3v 
-  Gnd----------Gnd    
+  Gnd----------Gnd     
 ```
 
 ### 5v Ready Micro-SD Card Breakout Board (from Adafruit.com) 
 
-#### Connections to NANO328p
+#### Connections to MKR1010wifi 
+```
+    MKR1010 | MicroSD Breakout
+    
+    GPIO(7)-----CS (set this pin in software)
+    MOSI(8)-----D1
+    SCK(9)-----CLK
+    MISO(10-----D0 
+    
+    5v----------5v
+            (nc)3v 
+    Gnd--------Gnd
+```
+#### Connections to MEGA2560
+```
+  MEGA | MicroSD Breakout
+  
+  SS(53)-------CS (set this pin in software?)
+  SCK(52)-----CLK 
+  MOSI(51)-----D1
+  MISO(50)-----D0
+  
+  5v-----------5v
+           (nc)3v 
+  Gnd---------Gnd
+``` 
+
+#### Connections to NANO328
 ```
   NANO | MicroSD Breakout
   
@@ -74,6 +110,21 @@ This project contains MCU programs to get sensor data and write it to a .txt fil
            (nc)3v 
   Gnd---------Gnd
 ``` 
+  
+#### Compile and Upload with `arduino-cli` for MKR1010wifi
+
+  Check for a connected board.
+```
+  arduino-cli board list
+````
+  Compile the script.
+```  
+  arduino-cli compile --fqbn arduino:samd:mkrwifi1010 data-logger.ino 
+```
+  Upload the script to the board.
+```
+  arduino-cli upload -p /dev/ttyACM0 --fqbn arduino:samd:mkrwifi1010 data-logger.ino
+```
 
 #### Compile and Upload with `arduino-cli` for NANO328p
 
@@ -83,18 +134,18 @@ This project contains MCU programs to get sensor data and write it to a .txt fil
 ````
   Compile the script.
 ```  
-  arduino-cli compile --fqbn arduino:avr:nano:cpu=atmega328 data-logger.ino
+  arduino-cli compile --fqbn arduino:avr:nano:cpu=atmega328 data_logger_nano.ino
 ```
   Upload the script to the board.
 ```
-  arduino-cli upload -p /dev/ttyUSB0 --fqbn arduino:avr:nano:cpu=atmega328 data-logger.ino
+  arduino-cli upload -p /dev/ttyUSB0 --fqbn arduino:avr:nano:cpu=atmega328 data_logger_nano.ino
 ```
 
 #### testing 
 
   Listen to the serial connection with minicom. `ACM0` refers to a custom config file made with minicom.
 ```  
-  minicom USB0      
+  $ minicom ACM0      
 ```
   After running the script the data file (.txt) should be on the SD card. Remove the card and inpect with a PC. If the filename defined in the script is a new name, then a new file will be created. If the filename defined in the script matches a file on the SD card, then that file will be appended with a new set of data entries.
 
@@ -122,5 +173,4 @@ This project contains MCU programs to get sensor data and write it to a .txt fil
   - added data_logger_BNO055, reduced version of data_logger to save code space on NANO - 06/01/2021
   - changed names data_logger and data_logger_BNO055 to data_logger_mkr,nano,test,archive - 06/05/2021
   - this code has grown to a point where it needs its own repository, goodbye /mcu - 06/05/2021
-  - see https://github.com/thillRobot/data-logger.git for the continuation of this project - 06/05/2021
-  - used git branches to handle different MCUs, added branches mkr-master and nano-master - 06/05/2021
+  - see https://github.com/thillRobot/data-logger.git for the continuation of this project
