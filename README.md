@@ -22,7 +22,7 @@ This project contains MCU programs to get sensor data and write it to a .txt fil
   - Lipo Battery - 1s, 3.7v, 150 mAh 
 
 
-### BNO055 - i2c Sensor Board 
+### BNO055 - Absolute Orientation Sensor Board (Adafruit) 
    
   This driver uses the Adafruit unified sensor library (Adafruit_Sensor),
   which provides a common 'type' for sensor data and some helper functions.
@@ -36,7 +36,7 @@ This project contains MCU programs to get sensor data and write it to a .txt fil
   provide an appropriate value in the constructor below (12345
   is used by default in this example).
   
-#### BNO055 layout and Sensor Orientation
+#### BNO055 chip layout and Sensor Orientation
 ```  
        +----------+
        |         *| RST   PITCH  ROLL  HEADING
@@ -47,7 +47,7 @@ This project contains MCU programs to get sensor data and write it to a .txt fil
        |         *| VIN
        +----------+
 ``` 
-#### Conections to MKR1010wifi     
+#### I2C Conections to MKR1010wifi     
 ```
   MKR | BNO055 Sensor Board
   
@@ -58,10 +58,42 @@ This project contains MCU programs to get sensor data and write it to a .txt fil
             (nc)3v 
   Gnd----------Gnd     
 ```
+### DPS310 Temperature and Barometric Pressure Sensor
+
+ Instructions from Adafruit:
+ https://learn.adafruit.com/adafruit-dps310-precision-barometric-pressure-sensor/arduino
+
+ The sensor board can be connected to the MCU through I2C or SPI. Both wiring options are shown below, but I2C is being used for this project because the SPI connection is used for the SD reader/writer. 
+
+#### I2C Connection to MKR1010wifi  
+```
+    MKR1010 | DPS310
+    
+    SCL(D12)-----SCK 
+    SDA(D11)-----SD1
+    
+    5v----------5v
+            (nc)3v 
+    Gnd--------Gnd
+```
+
+#### SPI Connection to MKR1010wifi  
+```
+    MKR1010 | DPS310
+    
+    GPIO(6)-----CS (set this pin in software)
+    MOSI(8)----SD1
+    SCK(9)-----SCK
+    MISO(10)---SD0 
+    
+    5v----------5v
+            (nc)3v 
+    Gnd--------Gnd
+```
 
 ### 5v Ready Micro-SD Card Breakout Board (from Adafruit.com) 
 
-#### Connections to MKR1010wifi 
+#### SPI Connections to MKR1010wifi 
 ```
     MKR1010 | MicroSD Breakout
     
@@ -83,11 +115,11 @@ This project contains MCU programs to get sensor data and write it to a .txt fil
 ````
   Compile the script.
 ```  
-  arduino-cli compile --fqbn arduino:samd:mkrwifi1010 datdata_logger_mkr.ino 
+  arduino-cli compile --fqbn arduino:samd:mkrwifi1010 data-logger/data-logger.ino 
 ```
   Upload the script to the board.
 ```
-  arduino-cli upload -p /dev/ttyACM0 --fqbn arduino:samd:mkrwifi1010 data_logger_mkr.ino
+  arduino-cli upload -p /dev/ttyACM0 --fqbn arduino:samd:mkrwifi1010 data-logger/data-logger.ino
 ```
 
 #### testing 
