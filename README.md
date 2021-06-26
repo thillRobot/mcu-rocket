@@ -8,10 +8,11 @@ Tristan Hill - 2021
   
 ## Mission Information
 
-Note: This is the master README that covers all hardware and missions. The The missions are MCU specific so choose the branch appropriate to the MCU in use for specific code and mission data.
+Note: This is the master README that covers all hardware and missions. The missions are MCU and rocket specific so choose the branch appropriate to the MCU in use for specific code and mission data.
 
-### Hardware Information
-  #### Mission A: NANO-Rocket
+## Hardare Overview
+
+ ### Mission A: NANO-Rocket
     
   - MCU Board: Arduino Nano 3.0 , CPU: Atmega 328p
   - Sensors:
@@ -20,11 +21,14 @@ Note: This is the master README that covers all hardware and missions. The The m
     - GY-68 (BMP180) - Barometric Pressure Sensor
     - DPS310 - Barometric Pressure, Temperature Sensor
   
-  Additional Hardware:
+  - Additional Hardware:
     - 5v Ready SD Breakout Board + 16 GB micro SD card
     - Lipo Battery - 1s, 3.7v, 150 mAh 
+  
+  - Mission Goal: Collect information about the rocket flight and environmental conditions. 
+  
     
-  #### Mission B: MKR-Rocket
+ ### Mission B: MKR-Rocket
     
   - MCU: Arduino MKR1010wifi, CPU: STM32 Cortex-M0
   - Sensors:
@@ -33,12 +37,17 @@ Note: This is the master README that covers all hardware and missions. The The m
     - GY-68 (BMP180) - Barometric Pressure Sensor
     - DPS310 - Barometric Pressure, Temperature Sensor
   
-  Additional Hardware:
+  - Additional Hardware:
     - 5v Ready SD Breakout Board + 16 GB micro SD card
     - Lipo Battery - 1s, 3.7v, 150 mAh 
+    
+  - Mission Goal: Collect information about the rocket flight and environmental conditions. 
 
+## Hardware Details
 
-### BNO055 - i2c Sensor Board 
+### On-Board Sensors
+
+#### BNO055 - i2c Sensor Board 
    
   This driver uses the Adafruit unified sensor library (Adafruit_Sensor),
   which provides a common 'type' for sensor data and some helper functions.
@@ -52,7 +61,7 @@ Note: This is the master README that covers all hardware and missions. The The m
   provide an appropriate value in the constructor below (12345
   is used by default in this example).
   
-#### BNO055 layout and Sensor Orientation
+##### BNO055 layout and Sensor Orientation
 ```  
        +----------+
        |         *| RST   PITCH  ROLL  HEADING
@@ -63,7 +72,7 @@ Note: This is the master README that covers all hardware and missions. The The m
        |         *| VIN
        +----------+
 ``` 
-#### Conections to MKR1010wifi     
+##### Conections to MKR1010wifi     
 ```
   MKR | BNO055 Sensor Board
   
@@ -75,7 +84,7 @@ Note: This is the master README that covers all hardware and missions. The The m
   Gnd----------Gnd     
 ```
 
-#### Conections to NANO328p     
+##### Conections to NANO328p     
 ```
   NANO | BNO055 Sensor Board
   
@@ -87,9 +96,9 @@ Note: This is the master README that covers all hardware and missions. The The m
   Gnd----------Gnd     
 ```
 
-### 5v Ready Micro-SD Card Breakout Board (from Adafruit.com) 
+#### 5v Ready Micro-SD Card Breakout Board (from Adafruit.com) 
 
-#### Connections to MKR1010wifi 
+##### Connections to MKR1010wifi 
 ```
     MKR1010 | MicroSD Breakout
     
@@ -102,7 +111,7 @@ Note: This is the master README that covers all hardware and missions. The The m
             (nc)3v 
     Gnd--------Gnd
 ```
-#### Connections to MEGA2560
+##### Connections to MEGA2560
 ```
   MEGA | MicroSD Breakout
   
@@ -116,7 +125,7 @@ Note: This is the master README that covers all hardware and missions. The The m
   Gnd---------Gnd
 ``` 
 
-#### Connections to NANO328
+##### Connections to NANO328
 ```
   NANO | MicroSD Breakout
   
