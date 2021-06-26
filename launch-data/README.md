@@ -1,6 +1,4 @@
-# launch data for the mcu-rocket project
-
-## Flightlog
+## Flightlog for the mcu-rocket project
 
 This is a flightlog for Mission A: NANO-Rocket.
 
