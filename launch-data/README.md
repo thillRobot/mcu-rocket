@@ -45,7 +45,7 @@ This is a flightlog for `Mission A: NANO-Rocket`.
 
   - Overview: The launch was a success. The rocket was launched once and it flew very straight. The rocket lost speed during the coasting period and began to fall before the parachute was deployed. I think was because the rocket was too heavy.
 
-  - Video: Watch the launch on (Youtube)[https://youtu.be/WiMViX4niXE]
+  - Video: Watch the launch on [Youtube](https://youtu.be/WiMViX4niXE)
   
 ### Flight 2  
   - Name: Flight 2 
