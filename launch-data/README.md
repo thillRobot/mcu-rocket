@@ -1,6 +1,6 @@
 ## Flightlog for the mcu-rocket project
 
-This is a flightlog for Mission A: NANO-Rocket.
+This is a flightlog for `Mission A: NANO-Rocket`.
 
 - Flight 0  
   - Name: Flight 0 
