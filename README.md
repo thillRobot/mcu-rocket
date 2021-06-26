@@ -8,7 +8,7 @@ Tristan Hill - 2021
   
 ## Hardware Information
 
-Note: This is the master README that covers all hardware and missions. The The missions are MCU specific. Choose the branch appropriate to the MCU in use andfor specific code and mission data
+Note: This is the master README that covers all hardware and missions. The The missions are MCU specific so choose the branch appropriate to the MCU in use for specific code and mission data.
 
 ### Misssions and Hardware
   #### Mission A: NANO-Rocket
