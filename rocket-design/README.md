@@ -4,8 +4,13 @@ Note: This page is specific to `Mission A: Nano-Rocket`. For information about a
 
 ## Overview 
 
-The primary goal is to design and construct a safe and low-cost model rocket capable of carrying a flight computer and sensor package as the payload in the nosecone. The rocket design shoud be suitable for construction with a typical FDM 3D printer and commonly available building materials. 
+The primary goal is to design and construct a safe and low-cost model rocket capable of carrying a flight computer and sensor package as the payload in the nosecone. The rocket design shoud be suitable for construction with a typical FDM 3D printer and available building materials. 
 
 ## Design Requirements
 
-- asdfasdfasdf
+## Design History of Nano-Rocket
+
+### Nosecone Design
+
+![Nosecone V1](../png-images/nosecone_assembly1.PNG?raw=true)
+
