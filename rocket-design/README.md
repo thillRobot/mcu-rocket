@@ -12,6 +12,6 @@ The primary goal is to design and construct a safe and low-cost model rocket cap
 
 ### Nosecone Design
 
-![Nosecone V1](nosecone_assembly1.PNG?raw=true)
+<img src="nosecone_assembly1.PNG" width=300 align=right>
 
 <img src="nosecone_assembly2.PNG" width=300 align=right>
