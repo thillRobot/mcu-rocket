@@ -25,7 +25,7 @@ Note: This is the README for Mission A: NANO-Rocket. To find information about a
     - Lipo Battery - 1s, 3.7v, 150 mAh 
 
 
-### BNO055 - i2c Sensor Board 
+### BNO055 - Absolute Orientation Sensor Board
    
   This driver uses the Adafruit unified sensor library (Adafruit_Sensor),
   which provides a common 'type' for sensor data and some helper functions.
@@ -62,7 +62,7 @@ Note: This is the README for Mission A: NANO-Rocket. To find information about a
   Gnd----------Gnd    
 ```
 
-### 5v Ready Micro-SD Card Breakout Board (from Adafruit.com) 
+### 5v Ready Micro-SD Card Breakout Board 
 
 #### Connections to NANO328p
 ```
