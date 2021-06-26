@@ -6,11 +6,11 @@ Tristan Hill - 2021
 ## Overview
   This project contains MCU programs and other utilities related to data acquisition and control of a model rocket. The rocket payload contains an on-board    flight computer consisting of a micro-controller and sensor package for collecting flight data and environmental conditions during the launch of a model rocket. 
   
-## Hardware Information
+## Mission Information
 
 Note: This is the master README that covers all hardware and missions. The The missions are MCU specific so choose the branch appropriate to the MCU in use for specific code and mission data.
 
-### Misssions and Hardware
+### Hardware Information
   #### Mission A: NANO-Rocket
     
   - MCU Board: Arduino Nano 3.0 , CPU: Atmega 328p
