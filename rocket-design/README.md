@@ -12,6 +12,12 @@ The primary goal is to design and construct a safe and low-cost model rocket cap
 
 ### Nosecone Design
 
-<img src="nosecone_assembly1.PNG" width=300 align=right>
+I made these designs with Autodesk Fusion 360 using the hobbyist license. This is not my favorite CAD program, but it is nice for small projects. The part construction seems straightforward, but assembly seems to be missing a way to set mates in the traditional way. The developers have claimed that the added joints instead of mates, but I have not quite figured out how they work yet. 
 
-<img src="nosecone_assembly2.PNG" width=300 align=right>
+Nosecone V1 
+  - First Draft in CAD
+  - After printing the first protoype it was clear that the split cone design was not going to work.
+
+<img src="nosecone_assembly1.PNG" width=300 align=center>
+
+<img src="nosecone_assembly2.PNG" width=300 align=center>
