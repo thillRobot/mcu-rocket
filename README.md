@@ -5,6 +5,8 @@ Tristan Hill - 2021
 
 ## Overview
   This project contains MCU programs and other utilities related to data acquisition and control of a model rocket. The rocket payload contains an on-board    flight computer consisting of a micro-controller and sensor package for collecting flight data and environmental conditions during the launch of a model rocket. 
+
+In the summer of 2019, a group of GSET students worked on this project as a research project. After watcthing them and helping just a bit with the code, I became excited about the project. Fast forward two years to June 2021, and we are fortunate enough to pick up where we left off. 
   
 ## Mission Information
 
