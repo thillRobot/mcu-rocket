@@ -13,7 +13,20 @@ Note: This is the master README that covers all hardware and missions. The The m
 ### Misssions and Hardware
   #### Mission A: NANO-Rocket
     
-  - MCU: Arduino Nano 3.0 328p
+  - MCU Board: Arduino Nano 3.0 , CPU: Atmega 328p
+  - Sensors:
+    - BNO055 - Absolute Orientation Sensor
+    - GY-521 (MPU 6050 MEMS) - 3 Axis Accelerometer, 3 Axis Gyroscope, and Temperature Sensor 
+    - GY-68 (BMP180) - Barometric Pressure Sensor
+    - DPS310 - Barometric Pressure, Temperature Sensor
+  
+  Additional Hardware:
+    - 5v Ready SD Breakout Board + 16 GB micro SD card
+    - Lipo Battery - 1s, 3.7v, 150 mAh 
+    
+  #### Mission B: MKR-Rocket
+    
+  - MCU: Arduino MKR1010wifi, CPU: STM32 Cortex-M0
   - Sensors:
     - BNO055 - Absolute Orientation Sensor
     - GY-521 (MPU 6050 MEMS) - 3 Axis Accelerometer, 3 Axis Gyroscope, and Temperature Sensor 
