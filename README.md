@@ -13,7 +13,7 @@ Note: This is the README for Mission A: NANO-Rocket. To find information about a
 ### Available Hardware
   #### Mission A: NANO-Rocket
     
-  - MCU: Arduino Nano 3.0 328p
+  - MCU Board: Arduino Nano 3.0, MCU: Atmega 328p
   - Sensors:
     - BNO055 - Absolute Orientation Sensor
     - GY-521 (MPU 6050 MEMS) - 3 Axis Accelerometer, 3 Axis Gyroscope, and Temperature Sensor 
