@@ -1,25 +1,28 @@
-# data-logger
-This project contains MCU programs to get sensor data and write it to a .txt file on an SD card.
+# mcu-rocket
+Data Acquisition and Control of a Model Rocket with an MCU based Flight Computer 
 
-  Write sensor data to a csv file on an SD card                         
-  Tristan Hill - Tennessee Technological University- 2021                             
+Tristan Hill - 2021                             
 
 ## Overview
-  This program get sensor data and writes it to a .csv file on an SD card.
+  This project contains MCU programs and other utilities related to data acquisition and control of a model rocket. The rocket payload contains an on-board    flight computer consisting of a micro-controller and sensor package for collecting flight data and environmental conditions during the launch of a model rocket. 
   
 ## Hardware Information
-  
-  Note: This is the master README that covers all hardware. Choose the branch appropriate to the MCU in 
-  in use for specific code.
 
-### Available Hardware
-  - Arduino Nano 3.0 328p
-  - BNO055 - Absolute Orientation Sensor
-  - GY-521 (MPU 6050 MEMS) - 3 Axis Accelerometer, 3 Axis Gyroscope, and Temperature Sensor 
-  - GY-68 (BMP180) - Barometric Pressure Sensor
-  - DPS310 - Barometric Pressure, Temperature Sensor
-  - 5v Ready SD Breakout Board + 16 GB micro SD card
-  - Lipo Battery - 1s, 3.7v, 150 mAh 
+Note: This is the master README that covers all hardware and missions. The The missions are MCU specific. Choose the branch appropriate to the MCU in use andfor specific code and mission data
+
+### Misssions and Hardware
+  #### Mission A: NANO-Rocket
+    
+  - MCU: Arduino Nano 3.0 328p
+  - Sensors:
+    - BNO055 - Absolute Orientation Sensor
+    - GY-521 (MPU 6050 MEMS) - 3 Axis Accelerometer, 3 Axis Gyroscope, and Temperature Sensor 
+    - GY-68 (BMP180) - Barometric Pressure Sensor
+    - DPS310 - Barometric Pressure, Temperature Sensor
+  
+  Additional Hardware:
+    - 5v Ready SD Breakout Board + 16 GB micro SD card
+    - Lipo Battery - 1s, 3.7v, 150 mAh 
 
 
 ### BNO055 - i2c Sensor Board 
@@ -177,3 +180,8 @@ This project contains MCU programs to get sensor data and write it to a .txt fil
   - changed names data_logger and data_logger_BNO055 to data_logger_mkr,nano,test,archive - 06/05/2021
   - this code has grown to a point where it needs its own repository, goodbye /mcu - 06/05/2021
   - see https://github.com/thillRobot/data-logger.git for the continuation of this project
+  - the name `data-logger` is far too generic, this project is now callled `mcu-rocket` and I hope it sticks - 06/25/2021 
+  - first flight tests - data included in this repo (see branch: nano-master)
+
+
+
