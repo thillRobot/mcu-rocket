@@ -18,6 +18,6 @@ Nosecone V1
   - First Draft in CAD
   - After printing the first protoype it was clear that the split cone design was not going to work.
 
-<img src="science_nosecone3.PNG" width=300 align=center>
+<img src="science_nosecone3.PNG" width=300 align=center> <img src="science_nosecone4.PNG" width=300 align=center>
 
-<img src="nosecone_assembly2.PNG" width=300 align=center>
+
