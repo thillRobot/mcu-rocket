@@ -1,17 +1,16 @@
-# data-logger
-This project contains MCU programs to get sensor data and write it to a .txt file on an SD card.
+# mcu-rocket
+Data Acquisition and Control of a Model Rocket with an MCU based Flight Computer 
 
-  Write sensor data to a csv file on an SD card                         
-  Tristan Hill - Tennessee Technological University- 2021                             
+Tristan Hill - 2021                             
 
 ## Overview
-  This program get sensor data and writes it to a .csv file on an SD card.
+  This project contains MCU programs and other utilities related to data acquisition and control of a model rocket. The rocket payload contains an on-board    flight computer consisting of a micro-controller and sensor package for collecting flight data and environmental conditions during the launch of a model rocket. 
   
-## Hardware Information
+## Mission Information
 
-  Note: Choose the appropriate branch for the MCU that is being used. 
-    
-### Missions and Hardware
+Note: This is the README for Mission A: NANO-Rocket. To find information about a differnt mission or rocket flight computer, choose a different bracnh.
+
+### Available Hardware
   #### Mission A: NANO-Rocket
     
   - MCU: Arduino Nano 3.0 328p
@@ -23,7 +22,7 @@ This project contains MCU programs to get sensor data and write it to a .txt fil
   
   Additional Hardware:
     - 5v Ready SD Breakout Board + 16 GB micro SD card
-    - Lipo Battery - 1s, 3.7v, 150 mAh
+    - Lipo Battery - 1s, 3.7v, 150 mAh 
 
 
 ### BNO055 - i2c Sensor Board 
