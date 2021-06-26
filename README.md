@@ -8,7 +8,7 @@ Tristan Hill - 2021
   
 ## Mission Information
 
-Note: This is the README for Mission A: NANO-Rocket. To find information about a differnt mission or rocket flight computer, choose a different bracnh.
+Note: This is the README for Mission A: NANO-Rocket. To find information about a different mission or rocket flight computer, choose a different branch.
 
 ### Available Hardware
   #### Mission A: NANO-Rocket
