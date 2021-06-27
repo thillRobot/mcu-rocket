@@ -28,7 +28,7 @@ Nosecone V2
 
 <img src="nosecone_assembly2.PNG" width=300 align=center> <img src="nosecone_assembly1.PNG" width=300 align=center>
 
-Nosecone Vv 
+Nosecone V3 
   - one piece nosecone with one piece coupler cylinder for simplicity
   - pcb board added to replace MCU discs and reduce wiring
   - floor of clyinder shaped to hold pcb carrier and batteries
