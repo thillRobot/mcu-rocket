@@ -22,8 +22,9 @@ Nosecone V1
 
 Nosecone V2 
   - one piece nosecone with split coupler cylinder for access
+  - cylinder/coupler diameter reduced for streamline  
   - closing two piece clyinder complicates problem as in V1
-  -  discs or rings to hold the electronics... almost worked
+  - discs or rings to hold the electronics... almost worked
 
 <img src="nosecone_assembly2.PNG" width=300 align=center> <img src="nosecone_assembly1.PNG" width=300 align=center>
 
