@@ -58,3 +58,12 @@ Tail V2
   - motor clip extrusion removed, friction mount has worked for two launches
 
 <img src="tail_assembly4.PNG" width=300 align=center> <img src="tail_assembly3.PNG" width=300 align=center>
+
+### Fin Design
+
+Fin V1
+  - rectangular fin for subsonic flight
+  - airfoil cross section for reduced profile drag and increased lift (induced drag), not sure about this part -> need to do my homework
+  - rectangle base for attachment to tail piece
+  
+  <img src="fin1.PNG" width=300 align=center> <img src="fin2.PNG" width=300 align=center>
