@@ -36,3 +36,14 @@ Nosecone V3
   - parabolic nose profile added for reduced drag in sub-sonic flight
 
 <img src="nosecone_assembly5.PNG" width=300 align=center> <img src="nosecone_assembly4.PNG" width=300 align=center>
+
+### Tail Design
+
+Tail V1 
+
+  - the purpose of the tail piece is to hold the motor and the fins securely to the body tube
+  - the 'boat tail' is intended to reduce drag, the angle is set at 10 degrees
+  - the first print was very heavy, which leads to a slow, and unstable rocket
+
+<img src="tail_assembly1.PNG" width=300 align=center> <img src="tail_assembly2.PNG" width=300 align=center>
+
