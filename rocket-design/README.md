@@ -28,4 +28,11 @@ Nosecone V2
 
 <img src="nosecone_assembly2.PNG" width=300 align=center> <img src="nosecone_assembly1.PNG" width=300 align=center>
 
+Nosecone Vv 
+  - one piece nosecone with one piece coupler cylinder for simplicity
+  - pcb board added to replace MCU discs and reduce wiring
+  - floor of clyinder shaped to hold pcb carrier and batteries
+  - cleiling of cyinder shaped with holes to support SD card board, hold sensor boards, and allow wiring access
+  - parabolic nose profile added for reduced drag in sub-sonic flight
 
+<img src="nosecone_assembly5.PNG" width=300 align=center> <img src="nosecone_assembly4.PNG" width=300 align=center>
