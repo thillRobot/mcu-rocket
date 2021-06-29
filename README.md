@@ -1,4 +1,4 @@
-# mcu-rocket
+ # mcu-rocket
 Data Acquisition and Control of a Model Rocket with an MCU based Flight Computer 
 
 Tristan Hill - 2021                             
@@ -85,7 +85,7 @@ Note: This is the README for Mission A: NANO-Rocket. To find information about a
   Check for a connected board.
 ```
   arduino-cli board list
-````
+```
   Compile the script.
 ```  
   arduino-cli compile --fqbn arduino:avr:nano:cpu=atmega328 data-logger.ino
