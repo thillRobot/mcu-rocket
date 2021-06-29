@@ -23,15 +23,23 @@
 
 #define LOOP_DELAY_MS 100 // main loop() delay
 
+#define M_BYTES 15
+#define N_BYTES 60
+
+
 const int chip_select = 10; // 10 for nano
 
 int entry_number = 0;     // number of the first row in the data file 
-int file_number = 1;      // change this number to create a new file
+int file_number = 4;      // change this number to create a new file
 bool delete_file = false;  // true: create new file, false: append existing file
 
 // String file_string;       // global variables - should this be done differently? // commented for debug
 
-char file_string[20];
+//int M=15;
+//int N=50;
+
+char file_string[M_BYTES];
+
 
 // Check I2C device address and correct line below (by default address is 0x29 or 0x28)                                  
 Adafruit_BNO055 bno = Adafruit_BNO055(55, 0x28); // (id, address)
@@ -98,58 +106,39 @@ void initFile(void)
   }
   //Serial.println("SD card initialized");
 
-  //file_string="nano-"+String(file_number)+".txt";  // global variable for now // commented for debug
+ 
+  snprintf(file_string,M_BYTES,"nano-%d.txt",file_number);
 
-  sprintf(file_string,"nano-%d.txt",file_number);
-
-  // replaced by code below for 'debug'
   // check to see if the file already exists on the SD card
   if (SD.exists(file_string)&&delete_file)
   {
-    //Serial.println("Debug 1");
-    //Serial.println(file_string+" already exist, deleting file before writing data");
+    Serial.println("file already exist, deleting file before writing data");
     SD.remove(file_string);
   }else if(SD.exists(file_string))
   {
-    //Serial.println("Debug 2");
-    Serial.println("file already exist, data will be appended to file");
-    
+    Serial.println("file already exist, data will be appended to file"); 
   }else
   {
-    //Serial.println("Debug 3");
     Serial.println("file does not exist, a new file will be created");
   } 
-  //Serial.println(buffer);
 
-  //instantiate a string for assembling the data file header
-  //String buffer= "Data Log Filename: "+ file_string + "\r\n"; // commented for debug
-
-  char buffer[50];
-  sprintf(buffer,"Datalog Filename: %s",file_string);
+  char buffer[N_BYTES];
+  snprintf(buffer,M_BYTES,"Datalog Filename: %s",file_string);
   
-  /*
-  // open the file. note that only one file can be open at a time,
-  // so you have to close this one before opening another.
+  // Open the file and remember that you have to close it before it can be opened again (or before opening another?).
   File file_id = SD.open(file_string, FILE_WRITE);
-  //File file_id = SD.open("debug_filename.txt", FILE_WRITE);
-
-  // if the file is available, generate a first line and write it
-  if (file_id) {
-    
+  //delay(1000);
+  if (file_id) {   // if the file is available, generate a first line and write it
     file_id.println(buffer);
-    //file_id.println("debug_print");
-    file_id.close(); //close the file before opening another.
+    //file_id.close(); //close the file before opening another.
   }
   else{ 
-    sprintf(buffer,"Error Opening File: %s",file_string);  // if the file did not open, change the header message to show error
-    //Serial.println("Error Opening File: "+file_string);
-    //Serial.println("debug_serial_print");
+    snprintf(buffer,N_BYTES,"Error Opening File: %s",file_string);  // else the file did not open, change the header message to show error
+    //file_id.close();
   }
-
-  */
+  file_id.close();
   // write the string to the serial output for debugging
   Serial.println(buffer);
-  //Serial.println("debug_buffer_print");
 
 }
 
@@ -163,21 +152,23 @@ bool printData(void) {
   // printHeader();
 
   // instanstiate objects for different sensor types 
-  sensors_event_t orientationData , angVelocityData, linearAccelData, magnetometerData, accelerometerData, gravityData;
-  bno.getEvent(&orientationData, Adafruit_BNO055::VECTOR_EULER);
-  bno.getEvent(&angVelocityData, Adafruit_BNO055::VECTOR_GYROSCOPE);
-  bno.getEvent(&linearAccelData, Adafruit_BNO055::VECTOR_LINEARACCEL);
-  bno.getEvent(&magnetometerData, Adafruit_BNO055::VECTOR_MAGNETOMETER);
+  sensors_event_t accelerometerData, orientationData, linearAccelData;// angVelocityData, magnetometerData, gravityData;
   bno.getEvent(&accelerometerData, Adafruit_BNO055::VECTOR_ACCELEROMETER);
-  bno.getEvent(&gravityData, Adafruit_BNO055::VECTOR_GRAVITY);
+  bno.getEvent(&orientationData, Adafruit_BNO055::VECTOR_EULER);
+  bno.getEvent(&linearAccelData, Adafruit_BNO055::VECTOR_LINEARACCEL);
+  
+  //bno.getEvent(&angVelocityData, Adafruit_BNO055::VECTOR_GYROSCOPE);
+  //bno.getEvent(&magnetometerData, Adafruit_BNO055::VECTOR_MAGNETOMETER);
+  //bno.getEvent(&gravityData, Adafruit_BNO055::VECTOR_GRAVITY);
 
   // print the bulk of the data to the file
-  printEvent(&orientationData);
-  printEvent(&angVelocityData);
-  printEvent(&linearAccelData);
-  printEvent(&magnetometerData);
   printEvent(&accelerometerData);
-  printEvent(&gravityData);
+  printEvent(&orientationData);
+  printEvent(&linearAccelData);
+  
+  //printEvent(&angVelocityData);
+  //printEvent(&magnetometerData); 
+  //printEvent(&gravityData);
 
   // print a closing line after the sensor data
   // printFooter();
@@ -255,12 +246,12 @@ bool printFooter(void) {
 /*  Formats and writes a single sensor event to file                         */
 /*****************************************************************************/
 void printEvent(sensors_event_t* event) {
-  float x = -1000000, y = -1000000 , z = -1000000; //easy to spot dummy values
-
-  // instantiate a string for assembling the data log
+  //float x = -1000000, y = -1000000 , z = -1000000; //easy to spot dummy values
+ 
   //String topic, data; // the name of the sensor, or name of the data to follow
-  char data_x[50], data_y[50], data_z[50];
-  char buffer[100];
+  char data_x[M_BYTES], data_y[M_BYTES], data_z[M_BYTES]; // if these c strings fill up the program will crash and reset the board
+  //char data[100];
+  char buffer[N_BYTES];
 
   if (event->type == SENSOR_TYPE_ACCELEROMETER) {
     //x = event->acceleration.x;
@@ -268,10 +259,20 @@ void printEvent(sensors_event_t* event) {
     //z = event->acceleration.z;
     //buffer = "Accelerometer:"+String(x)+","+String(y)+","+String(z);
     //topic = "Accelerometer: ";
-    dtostrf(event->acceleration.x,10,4,data_x); // convert float to C string 
-    dtostrf(event->acceleration.y,10,4,data_y); // because %f is not supported in Arduino
-    dtostrf(event->acceleration.z,10,4,data_z); // https://stackoverflow.com/questions/27651012/arduino-sprintf-float-not-formatting
-    sprintf(buffer,"Accelerometer: %s, %s, %s",data_x, data_y, data_z);
+
+    /*  // this is an alternate method that does not work, I was trying to use just one temp char array to save memory
+    dtostrf(event->acceleration.x,10,4,data); // convert float to C string 
+    sprintf(buffer,"%s, ",data);
+    dtostrf(event->acceleration.y,10,4,data); // because %f is not supported in Arduino
+    sprintf(buffer,"%s, ",data);
+    dtostrf(event->acceleration.z,10,4,data); // https://stackoverflow.com/questions/27651012/arduino-sprintf-float-not-formatting
+    sprintf(buffer,"%s; ",data);
+    */
+    
+    dtostrf(event->acceleration.x,8,2,data_x); // convert float to C string 
+    dtostrf(event->acceleration.y,8,2,data_y);  
+    dtostrf(event->acceleration.z,8,2,data_z); 
+    snprintf(buffer,N_BYTES,"Accelerometer: %s, %s, %s;",data_x, data_y, data_z); // print formatted values to the buffer
   }
   else if (event->type == SENSOR_TYPE_ORIENTATION) {
     //x = event->orientation.x;
@@ -281,49 +282,10 @@ void printEvent(sensors_event_t* event) {
    //topic = "Orientation: ";
     //sprintf(topic,"Orientation: ");
    //sprintf(buffer,"Orientation: %f,%f,%f",45.0,event->orientation.y,event->orientation.z);
-    dtostrf(event->orientation.x,10,4,data_x); // convert float to C string 
-    dtostrf(event->orientation.y,10,4,data_y); 
-    dtostrf(event->orientation.z,10,4,data_z); 
-    sprintf(buffer,"Orientation: %s, %s, %s",data_x, data_y, data_z);
-  }
-  else if (event->type == SENSOR_TYPE_MAGNETIC_FIELD) {
-    //x = event->magnetic.x;
-    //y = event->magnetic.y;
-    //z = event->magnetic.z;
-    //buffer += "MagneticField:"+String(x)+","+String(y)+","+String(z);
-    //topic="MagneticField: ";
-    //sprintf(topic,"MagneticField: ");
-    //sprintf(buffer,"MagneticField: %f,%f,%f",event->magnetic.x,event->magnetic.y,event->magnetic.z);
-    dtostrf(event->magnetic.x,10,4,data_x); // convert float to C string 
-    dtostrf(event->magnetic.y,10,4,data_y); 
-    dtostrf(event->magnetic.z,10,4,data_z); 
-    sprintf(buffer,"MagneticField: %s, %s, %s",data_x, data_y, data_z);
-  }
-  else if (event->type == SENSOR_TYPE_GYROSCOPE) {
-    //x = event->gyro.x;
-    //y = event->gyro.y;
-    //z = event->gyro.z;
-    //buffer += "Gyroscope:"+String(x)+","+String(y)+","+String(z);
-    //topic="Gyroscope: ";
-    //sprintf(topic,"Gyroscope: ");
-    //sprintf(buffer,"Gyroscope: %f,%f,%f",event->gyro.x,event->gyro.y,event->gyro.z);
-    dtostrf(event->gyro.x,10,4,data_x); // convert float to C string 
-    dtostrf(event->gyro.y,10,4,data_y); 
-    dtostrf(event->gyro.z,10,4,data_z); 
-    sprintf(buffer,"MagneticField: %s, %s, %s",data_x, data_y, data_z);
-  }
-  else if (event->type == SENSOR_TYPE_ROTATION_VECTOR) {
-    //x = event->gyro.x; // this looks like is might be a typo/bug -> look into this soon!
-    //y = event->gyro.y; // should this be gyro?
-    //z = event->gyro.z;
-    //buffer += "RotationVector:"+String(x)+","+String(y)+","+String(z);
-    //topic = "RotationVector: ";
-    //sprintf(topic,"RotationVector: ");
-    //sprintf(buffer,"RotationVector: %f,%f,%f",event->gyro.x,event->gyro.y,event->gyro.z);
-    dtostrf(event->gyro.x,10,4,data_x); // convert float to C string 
-    dtostrf(event->gyro.y,10,4,data_y); 
-    dtostrf(event->gyro.z,10,4,data_z); 
-    sprintf(buffer,"RotationVector: %s, %s, %s",data_x, data_y, data_z);
+    dtostrf(event->orientation.x,8,2,data_x); // convert float to C string 
+    dtostrf(event->orientation.y,8,2,data_y); 
+    dtostrf(event->orientation.z,8,2,data_z); 
+    snprintf(buffer,N_BYTES,"Orientation: %s, %s, %s;",data_x, data_y, data_z);
   }
   else if (event->type == SENSOR_TYPE_LINEAR_ACCELERATION) {
     //x = event->acceleration.x;
@@ -333,43 +295,98 @@ void printEvent(sensors_event_t* event) {
     //topic="LinearAcceleration: ";
     //sprintf(topic,"LinearAcceleration: ");
     //sprintf(buffer,"LinearAcceleration: %f, %f, %f",event->acceleration.x,event->acceleration.y,event->acceleration.z);
-    dtostrf(event->acceleration.x,10,4,data_x); // convert float to C string 
-    dtostrf(event->acceleration.y,10,4,data_y); 
-    dtostrf(event->acceleration.z,10,4,data_z); 
-    sprintf(buffer,"LinearAcceleration: %s, %s, %s",data_x, data_y, data_z);
+    dtostrf(event->acceleration.x,8,2,data_x); // convert float to C string 
+    dtostrf(event->acceleration.y,8,2,data_y); 
+    dtostrf(event->acceleration.z,8,2,data_z); 
+    snprintf(buffer,N_BYTES,"LinearAcceleration: %s, %s, %s;",data_x, data_y, data_z);
+  }/*
+  else if (event->type == SENSOR_TYPE_GYROSCOPE) {
+    //x = event->gyro.x;
+    //y = event->gyro.y;
+    //z = event->gyro.z;
+    //buffer += "Gyroscope:"+String(x)+","+String(y)+","+String(z);
+    //topic="Gyroscope: ";
+    //sprintf(topic,"Gyroscope: ");
+    //sprintf(buffer,"Gyroscope: %f,%f,%f",event->gyro.x,event->gyro.y,event->gyro.z);
+    dtostrf(event->gyro.x,8,2,data_x); // convert float to C string 
+    dtostrf(event->gyro.y,8,2,data_y); 
+    dtostrf(event->gyro.z,8,2,data_z); 
+    sprintf(buffer,"AngularVelocity: %s, %s, %s;",data_x, data_y, data_z);
+  }
+  else if (event->type == SENSOR_TYPE_MAGNETIC_FIELD) {
+    //x = event->magnetic.x;
+    //y = event->magnetic.y;
+    //z = event->magnetic.z;
+    //buffer += "MagneticField:"+String(x)+","+String(y)+","+String(z);
+    //topic="MagneticField: ";
+    //sprintf(topic,"MagneticField: ");
+    //sprintf(buffer,"MagneticField: %f,%f,%f",event->magnetic.x,event->magnetic.y,event->magnetic.z);
+    dtostrf(event->magnetic.x,8,2,data_x); // convert float to C string 
+    dtostrf(event->magnetic.y,8,2,data_y); 
+    dtostrf(event->magnetic.z,8,2,data_z); 
+    sprintf(buffer,"MagneticField: %s, %s, %s;",data_x, data_y, data_z);
+  }
+  else if (event->type == SENSOR_TYPE_GYROSCOPE) {
+    //x = event->gyro.x;
+    //y = event->gyro.y;
+    //z = event->gyro.z;
+    //buffer += "Gyroscope:"+String(x)+","+String(y)+","+String(z);
+    //topic="Gyroscope: ";
+    //sprintf(topic,"Gyroscope: ");
+    //sprintf(buffer,"Gyroscope: %f,%f,%f",event->gyro.x,event->gyro.y,event->gyro.z);
+    dtostrf(event->gyro.x,8,2,data_x); // convert float to C string 
+    dtostrf(event->gyro.y,8,2,data_y); 
+    dtostrf(event->gyro.z,8,2,data_z); 
+    sprintf(buffer,"MagneticField: %s, %s, %s;",data_x, data_y, data_z);
+  }
+  else if (event->type == SENSOR_TYPE_ROTATION_VECTOR) {
+    //x = event->gyro.x; // this looks like is might be a typo/bug -> look into this soon!
+    //y = event->gyro.y; // should this be gyro?
+    //z = event->gyro.z;
+    //buffer += "RotationVector:"+String(x)+","+String(y)+","+String(z);
+    //topic = "RotationVector: ";
+    //sprintf(topic,"RotationVector: ");
+    //sprintf(buffer,"RotationVector: %f,%f,%f",event->gyro.x,event->gyro.y,event->gyro.z);
+    dtostrf(event->gyro.x,8,2,data_x); // convert float to C string 
+    dtostrf(event->gyro.y,8,2,data_y); 
+    dtostrf(event->gyro.z,8,2,data_z); 
+    sprintf(buffer,"RotationVector: %s, %s, %s;",data_x, data_y, data_z);
+  }
+  else if (event->type == SENSOR_TYPE_LINEAR_ACCELERATION) {
+    //x = event->acceleration.x;
+    //y = event->acceleration.y;
+    //z = event->acceleration.z;
+    //buffer += "LinearAcceleration:"+String(x)+","+String(y)+","+String(z);
+    //topic="LinearAcceleration: ";
+    //sprintf(topic,"LinearAcceleration: ");
+    //sprintf(buffer,"LinearAcceleration: %f, %f, %f",event->acceleration.x,event->acceleration.y,event->acceleration.z);
+    dtostrf(event->acceleration.x,8,2,data_x); // convert float to C string 
+    dtostrf(event->acceleration.y,8,2,data_y); 
+    dtostrf(event->acceleration.z,8,2,data_z); 
+    sprintf(buffer,"LinearAcceleration: %s, %s, %s;",data_x, data_y, data_z);
   }
   else {
     //buffer += "Unknown:"+String(x)+","+String(y)+","+String(z);
     //topic="Unknown: ";
     sprintf(buffer,"Unknown: ");
-  }
+  }*/
 
-  // append the data feild to the string separated by commas
-  //buffer += String(x)+","+String(y)+","+String(z);
 
-  /*
-  /// open the file and instanstiate a file identifier object
+  // Re-open the file and remember that you have to close it before it can be opened again (or before opening another?).
   File file_id = SD.open(file_string, FILE_WRITE);
 
-  // if the file is available, write the string to it:
-  if (file_id) {
+  if (file_id) {   // if the file is available, generate a first line and write it
     file_id.println(buffer);
-    //file_id.print(buffer);  
-    //file_id.println("debug_buffer_print");
-    file_id.close(); //close the file before opening another
+    //file_id.close(); //close the file before opening another.
   }
-  // if the file did not open, change the message to an error
-  else {
-    //Serial.println("Error opening file: "+file_string); // commented out for debug
-    //Serial.println("Error opening file.");
-    sprintf(buffer,"Error opening file: %s",file_string);  // this should overwrite 'buffer' with the error message 
-    //Serial.println("debug_serial_print");
-  }
-  */
-  
+  else{ 
+    snprintf(buffer,N_BYTES,"Error Opening: %s",file_string);  // else the file did not open, change the header message to show error
+    //file_id.close();
+  } 
+  file_id.close();
+
   // write the string to the serial output for debugging
   Serial.println(buffer);
-  //file_id.println("debug_buffer_print");
 
 }
 
