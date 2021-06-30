@@ -18,7 +18,8 @@ Nosecone V1
   - first draft in CAD
   - first printed protoype showed that the split cone design was problematic
 
-<img src="png-images/science_nosecone3.PNG" width=300 align=center> <img src="png-images/science_nosecone4.PNG" width=300 align=center>
+<img src="png-images/science_nosecone3.PNG" width=300 align=center> <img src="png-images/science_nosecone4.PNG" width=300 align=center> 
+<img src="png-images/nosecone_construction1.PNG" width=300 align=center> <img src="png-images/nosecone_construction2.PNG" width=300 align=center>
 
 Nosecone V2 
   - one piece nosecone with split coupler cylinder for access
