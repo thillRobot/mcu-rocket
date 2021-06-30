@@ -28,6 +28,7 @@ Nosecone V2
   - discs or rings to hold the electronics... almost worked
 
 <img src="png-images/nosecone_assembly2.PNG" width=300 align=center> <img src="png-images/nosecone_assembly1.PNG" width=300 align=center>
+<img src="png-images/nosecone_construction3.PNG" width=300 align=center> <img src="png-images/nosecone_construction4.PNG" width=300 align=center>
 
 Nosecone V3 
   - one piece nosecone with one piece coupler cylinder for simplicity
@@ -37,6 +38,7 @@ Nosecone V3
   - parabolic nose profile added for reduced drag in sub-sonic flight
 
 <img src="png-images/nosecone_assembly5.PNG" width=300 align=center> <img src="png-images/nosecone_assembly4.PNG" width=300 align=center>
+<img src="png-images/nosecone_construction5.PNG" width=300 align=center> <img src="png-images/nosecone_construction6.PNG" width=300 align=center> <img src="png-images/nosecone_construction7.PNG" width=300 align=center>
 
 ### Tail Design
 
