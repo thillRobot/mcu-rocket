@@ -33,7 +33,11 @@ bool delete_file = false;  // true: create new file, false: append existing file
 bool verbose = true; // true: print the rows of data to the serial monitor for debugging, false: turn off print to save memory (SRAM ?)
 //bool sd_status = true; // operation status of the sd module and card
 
-// String file_string;       // global variables - should this be done differently? // commented for debug
+int c_time=0;
+//int c_cnt=0; 
+//volatile uint16_t ofcnt=0;
+volatile float   time_sec=0;
+int prescale=1;
 
 char file_string[M_BYTES];
 
@@ -53,6 +57,10 @@ void setup() {
   Serial.begin(38400);
   while (!Serial); // wait for serial port to connect. Needed for native USB port only
  
+  // Initialize ISR Timer 1
+  TCCR1A  = 0b00000000; 
+  TCCR1B  = 0b00000001; // timer prescale = 1 (no prescale)
+  TIMSK1  = 0b00000001; // overflow interrupt enable 
   
   initFile();
 
@@ -291,8 +299,9 @@ bool printHeader() {
   // bno.getCalibration(&system, &gyro, &accel, &mag);
 
   char buffer[N_BYTES];
-  //dtostrf(system,O_BYTES,P_BYTES,data_z);  // only needed for floats
-  snprintf(buffer,N_BYTES,"Entry: %i;",entry_number);
+  char time[10];
+  dtostrf(time_sec,O_BYTES,P_BYTES,time);  // only needed for floats
+  snprintf(buffer,N_BYTES,"Entry: %i,Time:%s;",entry_number,time);
 
   // open the file and instanstiate a file identifier
   File file_id = SD.open(file_string, FILE_WRITE);
@@ -310,11 +319,11 @@ bool printHeader() {
   return true;
 }
  
+
+// to save resources we do not need a footer. The next header will do just as much good.  
 /*************************************************************************************/
 /*  subroutine 'printFooter' formats and writes the data entry footer to the file    */
-/*************************************************************************************/
-
-// To save resources we do not need a footer. The next header will do just as much good.  
+/*************************************************************************************/ 
 bool printFooter(void) {
   
   char buffer[N_BYTES];
@@ -334,6 +343,17 @@ bool printFooter(void) {
 
   if (verbose) Serial.println(buffer);
   return true;
+}
+
+// this timer code was written and tested on the mega2560
+// but it seems to match on a quick 20s stopwatch test on the 328p
+/******************************************************************/
+/*   interrupt suboutine 'TIMER1_OVF_vect' for Timer1 overflow    */
+/******************************************************************/
+ISR(TIMER1_OVF_vect) {
+
+    //ofcnt++;
+    time_sec=time_sec+1.0/16000000.0*65536*prescale; // 1/16e6*65536
 }
 
 
