@@ -18,7 +18,8 @@ Nosecone V1
   - first draft in CAD
   - first printed protoype showed that the split cone design was problematic
 
-<img src="science_nosecone3.PNG" width=300 align=center> <img src="science_nosecone4.PNG" width=300 align=center>
+<img src="png-images/science_nosecone3.PNG" width=300 align=center> <img src="png-images/science_nosecone4.PNG" width=300 align=center> 
+<img src="png-images/nosecone_construction1.PNG" width=300 align=center> <img src="png-images/nosecone_construction2.PNG" width=300 align=center>
 
 Nosecone V2 
   - one piece nosecone with split coupler cylinder for access
@@ -26,7 +27,8 @@ Nosecone V2
   - closing two piece clyinder complicates problem as in V1
   - discs or rings to hold the electronics... almost worked
 
-<img src="nosecone_assembly2.PNG" width=300 align=center> <img src="nosecone_assembly1.PNG" width=300 align=center>
+<img src="png-images/nosecone_assembly2.PNG" width=300 align=center> <img src="png-images/nosecone_assembly1.PNG" width=300 align=center>
+<img src="png-images/nosecone_construction3.PNG" width=300 align=center> <img src="png-images/nosecone_construction4.PNG" width=300 align=center>
 
 Nosecone V3 
   - one piece nosecone with one piece coupler cylinder for simplicity
@@ -35,7 +37,8 @@ Nosecone V3
   - cleiling of cyinder shaped with holes to support SD card board, hold sensor boards, and allow wiring access
   - parabolic nose profile added for reduced drag in sub-sonic flight
 
-<img src="nosecone_assembly5.PNG" width=300 align=center> <img src="nosecone_assembly4.PNG" width=300 align=center>
+<img src="png-images/nosecone_assembly5.PNG" width=300 align=center> <img src="png-images/nosecone_assembly4.PNG" width=300 align=center>
+<img src="png-images/nosecone_construction5.PNG" width=300 align=center> <img src="png-images/nosecone_construction6.PNG" width=300 align=center> <img src="png-images/nosecone_construction7.PNG" width=300 align=center>
 
 ### Tail Design
 
@@ -46,7 +49,7 @@ Tail V1
   - the first print was very heavy, which can lead to a slow and unstable rocket 
   - extrusion in motor tube for motor clip like typical estes rocket 
 
-<img src="tail_assembly2.PNG" width=300 align=center> <img src="tail_assembly1.PNG" width=300 align=center>
+<img src="png-images/tail_assembly2.PNG" width=300 align=center> <img src="png-images/tail_assembly1.PNG" width=300 align=center>
 
 
 Tail V2 
@@ -57,7 +60,7 @@ Tail V2
   - fin reciever (notch) depth increased
   - motor clip extrusion removed, friction mount has worked for two launches
 
-<img src="tail_assembly4.PNG" width=300 align=center> <img src="tail_assembly3.PNG" width=300 align=center>
+<img src="png-images/tail_assembly4.PNG" width=300 align=center> <img src="png-images/tail_assembly3.PNG" width=300 align=center>
 
 ### Fin Design
 
@@ -66,4 +69,4 @@ Fin V1
   - airfoil cross section for reduced profile drag and increased lift (induced drag), not sure about this part -> need to do my homework
   - rectangle base for attachment to tail piece
   
-  <img src="fin1.PNG" width=300 align=center> <img src="fin2.PNG" width=300 align=center>
+  <img src="png-images/fin1.PNG" width=300 align=center> <img src="png-images/fin2.PNG" width=300 align=center>
