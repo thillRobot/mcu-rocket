@@ -17,12 +17,13 @@
 #include <SPI.h>
 #include <SD.h>
 #include <stdio.h>
+#include <string.h>
 
 #define LOOP_DELAY_MS 100 // main loop() delay
 
-#define M_BYTES 15 // length of file name in bytes
-#define N_BYTES 55 // length of file serial buffer in bytes
-#define O_BYTES 8 // length of single data (field width) in bytes 
+#define M_BYTES 12 // length of file name in bytes
+#define N_BYTES 40 // length of file serial buffer in bytes
+#define O_BYTES 7 // length of single data (field width) in bytes 
 #define P_BYTES 2  // number of decimal places of single data (precision) in bytes
 
 int chip_select = 10;     // cs is pin 10 for nano
@@ -36,16 +37,17 @@ bool verbose = true; // true: print the rows of data to the serial monitor for d
 
 char file_string[M_BYTES];
 
-//char buffer[N_BYTES]; 
+//char buffer[N_BYTES];  // defined locally instead 
 
 // Check I2C device address and correct line below (by default address is 0x29 or 0x28)                                  
 Adafruit_BNO055 bno = Adafruit_BNO055(55, 0x28); // (id, address)
 
-/*************************************************************/
-/*  setup function 'setup'                                   */
-/*************************************************************/
+/***************************************************************/
+/*   initialization function 'setup' runs once before 'loop'   */
+/***************************************************************/
 void setup() {
-  // Open serial communications and wait for port to open:
+
+  // Initialize the serial monitor for debugging
   Serial.begin(38400);
   while (!Serial) {
     ; // wait for serial port to connect. Needed for native USB port only
@@ -53,19 +55,12 @@ void setup() {
   
   initFile();
 
-  //Serial.begin(115200);
-  //Serial.println("Data Logger Nano \n Initializing"); Serial.println("");
-
-  /* Initialize the sensor */
-  //Serial.println("Debug 4");
+  // Initialize the BNO055 Absolute Orientation Board 
   if(!bno.begin())
   {
-    //Serial.println("Debug 5");
-    /* There was a problem detecting the BNO055 ... check your connections */
-    Serial.print("BNO055 Error");
-    while(1);
+    Serial.print("BNO055 Error"); // There was a problem detecting the BNO055 -> check the connections 
+    while(1); // wait here forever ??? is this really how we should handle this?
   }
-  //Serial.println("Debug 6");
   delay(100);
 
   /* Use external crystal for better accuracy */
@@ -77,7 +72,7 @@ void setup() {
 }
 
 /*************************************************************/
-/*  main function 'loop'                                     */
+/*  main function 'loop' run continou                        */
 /*************************************************************/
 void loop() {
 
@@ -89,9 +84,9 @@ void loop() {
   
 }
 
-/*************************************************************/
-/*  this function 'initFile' opens a file for the datalog     */
-/*************************************************************/
+/*******************************************************************/
+/*  subroutine function 'initFile' prepares file on SD card   */
+/*******************************************************************/
 void initFile(void)
 {
 
@@ -102,7 +97,8 @@ void initFile(void)
 
   // check if the card is present and can be initialized
   if (!SD.begin(chip_select)) {
-    snprintf(buffer,N_BYTES,"Card Error\n");
+    //snprintf(buffer,N_BYTES,"Card Error\n");
+    strncpy(buffer,"Card Error!\n",N_BYTES);  
     //sd_status=0;
   }/*else{
    snprintf(buffer,N_BYTES,"Card Ready\n");
@@ -112,111 +108,146 @@ void initFile(void)
   // check to see if the file already exists on the SD card
   if (SD.exists(file_string)&&delete_file)
   {
-    snprintf(buffer,N_BYTES,"Deleting: nano-%d.txt\n",file_number);
+    strncpy(buffer,"Overwriting:",N_BYTES);
+    //strncat(buffer,file_string,N_BYTES);
+    //snprintf(buffer,N_BYTES,"Deleting: nano-%d.txt\n",file_number);
     SD.remove(file_string);
   }else if(SD.exists(file_string))
   {
-    snprintf(buffer,N_BYTES,"Appending: nano-%d.txt\n",file_number); 
+    strncpy(buffer,"Appending:",N_BYTES);
+    //strncat(buffer,file_string,N_BYTES);  
+    //snprintf(buffer,N_BYTES,"Appending: nano-%d.txt\n",file_number); 
   }else
   {
-    snprintf(buffer,N_BYTES,"Creating: nano-%d.txt\n",file_number);
+    strncpy(buffer,"Creating:",N_BYTES);
+    //strncat(buffer,file_string,N_BYTES);
+    //snprintf(buffer,N_BYTES,"Creating: nano-%d.txt\n",file_number);
   } 
 
   // open the file and instanstiate a file identifier
   File file_id = SD.open(file_string, FILE_WRITE);
 
-  if (file_id) {                                          // if the file is available
-    snprintf(buffer,N_BYTES,"Datalog: %s",file_string);   // format the first line and 
-    file_id.println(buffer);                              // write it to the file                            
+  strncat(buffer,file_string,N_BYTES); // append the filename to the message
+
+  if (file_id) { 
+    //strncat(buffer,"Datalog: ",N_BYTES);
+    //strncat(buffer,file_string,N_BYTES);                    // if the file is available
+    //snprintf(buffer,N_BYTES,"Datalog: %s",file_string);   // format the first line and 
+    file_id.println(buffer);                                // write it to the file                            
   }else {
-    snprintf(buffer,N_BYTES,"Error Opening: %s",file_string);
+    strncat(buffer," Failed!",N_BYTES);                     // if the file did not open, skip the write and add an error message to the buffer
+     
+    //snprintf(buffer,N_BYTES,"Error Opening: %s",file_string);
   }
+
+  //strncat(buffer,file_string,N_BYTES);
+
   file_id.close(); //close the file before doing anything else (in case of power down we will still have access data file
 
   if (verbose) Serial.println(buffer);
   
 }
 
-/**********************************************************/
-/*  Formats and writes the data entry to the file         */
-/**********************************************************/
+/****************************************************************************************************/
+/*   subroutine function 'printData' calls 'getEvent' and 'printEvent' for each information type    */
+/****************************************************************************************************/
 bool printData(void) {
   
   // print the entry number and calibration data before printing sensor data
-  // printHeader();
+  printHeader();
 
   // instanstiate objects for different sensor types 
   sensors_event_t accelerometerData,  magnometerData, gravFieldData, linAccelData, angVelData, angPosData; 
   
-  //bno.getEvent(&accelerometerData, Adafruit_BNO055::VECTOR_ACCELEROMETER);  // direct sensor data
-  //bno.getEvent(&magnometerData, Adafruit_BNO055::VECTOR_MAGNETOMETER);
+  bno.getEvent(&accelerometerData, Adafruit_BNO055::VECTOR_ACCELEROMETER);  // direct sensor data
+  bno.getEvent(&magnometerData, Adafruit_BNO055::VECTOR_MAGNETOMETER);
   bno.getEvent(&gravFieldData, Adafruit_BNO055::VECTOR_GRAVITY);            // derived quantities
   bno.getEvent(&linAccelData, Adafruit_BNO055::VECTOR_LINEARACCEL);
   bno.getEvent(&angVelData, Adafruit_BNO055::VECTOR_GYROSCOPE);
   bno.getEvent(&angPosData, Adafruit_BNO055::VECTOR_EULER);
 
   // print the bulk of the data to the file
-  //printEvent(&accelerometerData);
-  //printEvent(&magnometerData);
+  printEvent(&accelerometerData);
+  printEvent(&magnometerData);
   printEvent(&gravFieldData);
   printEvent(&linAccelData);
   printEvent(&angVelData); 
   printEvent(&angPosData);
   
   // print a closing line after the sensor data
-  // printFooter();
-  entry_number++;
+  //printFooter(); // To save resources we do not need a footer. The next header will do just as much good.
+  
+  entry_number++; // increment the entry number 
   return true;
 }
 
-/*****************************************************************************/
-/*  Formats and writes a single sensor event to file                         */
-/*****************************************************************************/
+/*********************************************************************************/
+/*   subroutine 'printEvent' formats and writes a single sensor event to file    */
+/*********************************************************************************/
 void printEvent(sensors_event_t* event) {
  
   char data_x[M_BYTES], data_y[M_BYTES], data_z[M_BYTES]; // if these c strings fill up the program will crash and reset the board
                                                           // for this reason we switched from sprintf() to snprintf()
-  //char s_buffer[S_BYTES]; // buffer for serial monitor
+    
   char buffer[N_BYTES];   // buffer to store a line a data before writing to sd card file (or serial monitor) 
-  
+  char tmp[25]; // this could be 3*(O_BYTES+1) -> 24 // i tired to think of a clean way without this second buffer but ... try again soon
+
+
   if (event->type == SENSOR_TYPE_ACCELEROMETER) {
     dtostrf(event->acceleration.x,O_BYTES,P_BYTES,data_x); // convert float to C string 
     dtostrf(event->acceleration.y,O_BYTES,P_BYTES,data_y);  
     dtostrf(event->acceleration.z,O_BYTES,P_BYTES,data_z); 
-    snprintf(buffer,N_BYTES,"Accelerometer: %s, %s, %s;",data_x, data_y, data_z); // print formatted values to the buffer
+    //snprintf(buffer,N_BYTES,"Accelerometer: %s, %s, %s;",data_x, data_y, data_z); // print formatted values to the buffer
+    //strncpy(buffer,"Accelerometer: ",N_BYTES);  
+    strncpy(buffer,"Accel:",N_BYTES);
   }
   else if (event->type == SENSOR_TYPE_MAGNETIC_FIELD) {
     dtostrf(event->magnetic.x,O_BYTES,P_BYTES,data_x); // convert float to C string 
     dtostrf(event->magnetic.y,O_BYTES,P_BYTES,data_y); 
     dtostrf(event->magnetic.z,O_BYTES,P_BYTES,data_z); 
-    snprintf(buffer,N_BYTES,"Magnometer: %s, %s, %s;",data_x, data_y, data_z);
+    //snprintf(buffer,N_BYTES,"Magnometer: %s, %s, %s;",data_x, data_y, data_z);
+    //strncpy(buffer,"Magnometer: ",N_BYTES);
+    strncpy(buffer,"Mag:",N_BYTES);
   }
   else if (event->type == SENSOR_TYPE_LINEAR_ACCELERATION) {
     dtostrf(event->acceleration.x,O_BYTES,P_BYTES,data_x); // convert float to C string 
     dtostrf(event->acceleration.y,O_BYTES,P_BYTES,data_y); 
     dtostrf(event->acceleration.z,O_BYTES,P_BYTES,data_z); 
-    snprintf(buffer,N_BYTES,"LinearAcceleration: %s, %s, %s;",data_x, data_y, data_z);   
+    //snprintf(buffer,N_BYTES,"LinearAcceleration: %s, %s, %s;",data_x, data_y, data_z);   
+    //strncpy(buffer,"LinearAcceleration: ",N_BYTES);
+    strncpy(buffer,"LinAccel:",N_BYTES);
   }
   else if (event->type == SENSOR_TYPE_GYROSCOPE) {
     dtostrf(event->gyro.x,O_BYTES,P_BYTES,data_x); // convert float to C string 
     dtostrf(event->gyro.y,O_BYTES,P_BYTES,data_y); 
     dtostrf(event->gyro.z,O_BYTES,P_BYTES,data_z); 
-    snprintf(buffer,N_BYTES,"AngularVelocity: %s, %s, %s;",data_x, data_y, data_z);
+    //snprintf(buffer,N_BYTES,"AngularVelocity: %s, %s, %s;",data_x, data_y, data_z);
+    //strncpy(buffer,"AngularVelocity: ",N_BYTES);
+    strncpy(buffer,"AngVel:",N_BYTES);
   }
   else if (event->type == SENSOR_TYPE_ORIENTATION) {
     dtostrf(event->orientation.x,O_BYTES,P_BYTES,data_x); // convert float to C string 
     dtostrf(event->orientation.y,O_BYTES,P_BYTES,data_y); 
     dtostrf(event->orientation.z,O_BYTES,P_BYTES,data_z); 
-    snprintf(buffer,N_BYTES,"AngularPosition: %s, %s, %s;",data_x, data_y, data_z);
+    //snprintf(buffer,N_BYTES,"AngularPosition: %s, %s, %s;",data_x, data_y, data_z);
+    //strncpy(buffer,"AngularPosition: ",N_BYTES);
+    strncpy(buffer,"AngPos:",N_BYTES);
   }
   else if (event->type == SENSOR_TYPE_ROTATION_VECTOR) {
     dtostrf(event->gyro.x,O_BYTES,P_BYTES,data_x); // convert float to C string 
     dtostrf(event->gyro.y,O_BYTES,P_BYTES,data_y); 
     dtostrf(event->gyro.z,O_BYTES,P_BYTES,data_z); 
-    snprintf(buffer,N_BYTES,"RotationVector: %s, %s, %s;",data_x, data_y, data_z);
+    //snprintf(buffer,N_BYTES,"RotationVector: %s, %s, %s;",data_x, data_y, data_z);
+    //strncpy(buffer,"RotationVector: ",N_BYTES);
+    strncpy(buffer,"RotVec:",N_BYTES);
   }
 
-  //else {
+  snprintf(tmp,N_BYTES,"%s,%s,%s;",data_x, data_y, data_z); // print formatted values to the buffer
+  strncat(buffer,tmp,N_BYTES);
+  
+  //strncat(buffer,"%s, %s, %s;",data_x, data_y, data_z); // print formatted values to the buffer
+
+  //else { // this unknown, else case is not needed
   //  snprintf(buffer,N_BYTES,"Unknown: ");
   // }
 
@@ -240,81 +271,79 @@ void printEvent(sensors_event_t* event) {
   if (file_id) {                                          // if the file is available
     file_id.println(buffer);                              // write it to the file                            
   }else {
-    snprintf(buffer,N_BYTES,"Error Re-Opening: %s",file_string);
+    strncpy(buffer,"Error Opening:",N_BYTES);
+    strncat(buffer,file_string,N_BYTES);
+    //snprintf(buffer,N_BYTES,"Error Re-Opening: %s",file_string);
   }
   file_id.close(); //close the file before doing anything else (in case of power down we will still have access data file
 
   if (verbose) Serial.println(buffer);
   
-
 }
 
 
-/*****************************************************************************/
-/*  Formats and writes the data entry header and calibration to file         */
-/*****************************************************************************/
-
-/*
+/*************************************************************************************************/
+/*  subroutine 'printHeader' formats and writes the data entry header and calibration to file    */
+/*************************************************************************************************/
 bool printHeader() {
   // get the BNO055 temp for the data entry header
-  //int8_t boardTemp = bno.getTemp();
+  // int8_t boardTemp = bno.getTemp();
   // get the BNO055 calibration data (notice this way uses pointers?)
-  //uint8_t system, gyro, accel, mag = 0;
-  //bno.getCalibration(&system, &gyro, &accel, &mag);
+  // uint8_t system, gyro, accel, mag = 0;
+  // bno.getCalibration(&system, &gyro, &accel, &mag);
 
-  // instantiate and assemble a string for the data entry header
+  // instantiate and assemble a string for the data entry header // we are not using String anymore to save resources
   //String buffer = "Data Log Entry:"+String(entry_number)+"\r\nBNO055 Temp:"+String(boardTemp) // commented for debug
   //  +"\r\nCalibration[Sys,Gyro,Accel,Mag]:"+String(system)+","+String(gyro)+","+String(accel)+","+String(mag); // commented for debug
 
-  // open the file and instanstiate a file identifier object
-  //File file_id = SD.open(file_string, FILE_WRITE);  // replaced with line below for debug
-  //File file_id = SD.open("debug_filename.txt", FILE_WRITE);
+  char buffer[N_BYTES];
+  //dtostrf(system,O_BYTES,P_BYTES,data_z);  // only needed for floats
+  snprintf(buffer,N_BYTES,"Entry: %i;",entry_number);
 
-  // if the file is available, write to it:
-  //if (file_id) {
-    //file_id.println(buffer); // commented out for debug
-    //file_id.println("debug_buffer_print");
-    //file_id.close(); //close the file before opening another.
-  //}
-  // if the file did not open, change the header message to an error:
-  //else {
-    //Serial.println("Error opening datalog file: "+file_string);
-    //Serial.println("debug_serial_print");  
-  //}
+  // open the file and instanstiate a file identifier
+  File file_id = SD.open(file_string, FILE_WRITE);
 
-  // write the string to the serial output for debugging
-  //Serial.println(buffer);
-  //Serial.println("debug_buffer_print");
+  if (file_id) {                                          // if the file is available
+    file_id.println(buffer);                              // write it to the file                            
+  }else {
+    strncpy(buffer,"Error Opening: ",N_BYTES);
+    strncat(buffer,file_string,N_BYTES);
+    //snprintf(buffer,N_BYTES,"Error Re-Opening: %s",file_string);
+  }
+  file_id.close(); //close the file before doing anything else (in case of power down we will still have access data file
+
+  if (verbose) Serial.println(buffer);
+
   return true;
 }
-*/
+ 
+/*************************************************************************************/
+/*  subroutine 'printFooter' formats and writes the data entry footer to the file    */
+/*************************************************************************************/
 
-/**************************************************************************/
-/*  Formats and writes the data entry footer to file                      */
-/**************************************************************************/
-/*
+// To save resources we do not need a footer. The next header will do just as much good.  
 bool printFooter(void) {
   
-  // instantiate and assemble a string for the data entry footer
-  String buffer = "DataLog Entry:"+String(entry_number)+": Complete";
-  
-  // open the file and instanstiate a file identifier object
+  char buffer[N_BYTES];
+  //dtostrf(system,O_BYTES,P_BYTES,data_z);  // only needed for floats
+  //snprintf(buffer,N_BYTES,"Entry Complete;");
+  strncpy(buffer,N_BYTES,"Entry Complete;");
+
+  // open the file and instanstiate a file identifier
   File file_id = SD.open(file_string, FILE_WRITE);
-  // if the file is available, write the string to it:
-  if (file_id) {
-    file_id.println(buffer);
-    file_id.close(); //close the file before opening another
+
+  if (file_id) {                                          // if the file is available
+    file_id.println(buffer);                              // write it to the file                            
+  }else {
+    strncpy(buffer,"Error Opening: ",N_BYTES);
+    strncat(buffer,file_string,N_BYTES);
   }
-  // if the file did not open, change the message to an error
-  else {
-    Serial.println("Error opening datalog file: "+file_string);
-  }
-  entry_number++;
-  // write the string to the serial output for debugging
-  Serial.println(buffer);
+  file_id.close(); //close the file before doing anything else (in case of power down we will still have access data file
+
+  if (verbose) Serial.println(buffer);
   return true;
 }
-*/
+
 
 /**************************************************************************/
 /*    Displays some basic information on this sensor from the unified     */
