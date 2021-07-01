@@ -12,7 +12,7 @@ The primary goal is to design and construct a safe and low-cost model rocket cap
 
 ### Nosecone Design
 
-I made these designs with Autodesk Fusion 360 using the hobbyist license. This is not my favorite CAD program, but it is nice for small projects. The part construction seems straightforward, but assembly seems to be missing traditional mates such as in Inventor or Solidworks. The developers have claimed that they buiult it around joints instead of mates, but I have not quite figured out how they work yet. 
+I made these designs with Autodesk Fusion 360 using the hobbyist license. This is not my favorite CAD program, but it is nice for small projects. The part construction seems straightforward, but assembly seems to be missing traditional mates such as in Inventor or Solidworks. The developers have claimed that they built it around kinematic joints instead of mates, but I have not quite figured out how they work yet. 
 
 Nosecone V1 
   - first draft in CAD
