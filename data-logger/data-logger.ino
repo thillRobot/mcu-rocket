@@ -47,33 +47,22 @@ Adafruit_BNO055 bno = Adafruit_BNO055(55, 0x28); // (id, address)
 /***************************************************************/
 void setup() {
 
+  //char buffer[N_BYTES];
+
   // Initialize the serial monitor for debugging
   Serial.begin(38400);
-  while (!Serial) {
-    ; // wait for serial port to connect. Needed for native USB port only
-  }
+  while (!Serial); // wait for serial port to connect. Needed for native USB port only
+ 
   
   initFile();
 
-  // Initialize the BNO055 Absolute Orientation Board 
-  if(!bno.begin())
-  {
-    Serial.print("BNO055 Error"); // There was a problem detecting the BNO055 -> check the connections 
-    while(1); // wait here forever ??? is this really how we should handle this?
-  }
-  delay(100);
-
-  /* Use external crystal for better accuracy */
-  bno.setExtCrystalUse(true);
-   
-  /* Display some basic information on this sensor */
-  //displaySensorDetails();
+  initSensors();
 
 }
 
-/*************************************************************/
-/*  main function 'loop' run continou                        */
-/*************************************************************/
+/**********************************************************/
+/*  main function 'loop' run continously after 'setup'    */
+/**********************************************************/
 void loop() {
 
   //printHeader();
@@ -84,9 +73,9 @@ void loop() {
   
 }
 
-/*******************************************************************/
+/**************************************************************/
 /*  subroutine function 'initFile' prepares file on SD card   */
-/*******************************************************************/
+/**************************************************************/
 void initFile(void)
 {
 
@@ -96,32 +85,25 @@ void initFile(void)
   snprintf(file_string,M_BYTES,"nano-%d.txt",file_number);
 
   // check if the card is present and can be initialized
-  if (!SD.begin(chip_select)) {
-    //snprintf(buffer,N_BYTES,"Card Error\n");
-    strncpy(buffer,"Card Error!\n",N_BYTES);  
+  if (SD.begin(chip_select)) {
+    strncpy(buffer,"Card Ready\n",N_BYTES);
     //sd_status=0;
-  }/*else{
-   snprintf(buffer,N_BYTES,"Card Ready\n");
+  }else{
+    strncpy(buffer,"Card Error\n",N_BYTES);  
     //sd_status=1;
-  }*/
+  }
   
   // check to see if the file already exists on the SD card
   if (SD.exists(file_string)&&delete_file)
   {
     strncpy(buffer,"Overwriting:",N_BYTES);
-    //strncat(buffer,file_string,N_BYTES);
-    //snprintf(buffer,N_BYTES,"Deleting: nano-%d.txt\n",file_number);
     SD.remove(file_string);
   }else if(SD.exists(file_string))
   {
     strncpy(buffer,"Appending:",N_BYTES);
-    //strncat(buffer,file_string,N_BYTES);  
-    //snprintf(buffer,N_BYTES,"Appending: nano-%d.txt\n",file_number); 
   }else
   {
     strncpy(buffer,"Creating:",N_BYTES);
-    //strncat(buffer,file_string,N_BYTES);
-    //snprintf(buffer,N_BYTES,"Creating: nano-%d.txt\n",file_number);
   } 
 
   // open the file and instanstiate a file identifier
@@ -130,22 +112,56 @@ void initFile(void)
   strncat(buffer,file_string,N_BYTES); // append the filename to the message
 
   if (file_id) { 
-    //strncat(buffer,"Datalog: ",N_BYTES);
-    //strncat(buffer,file_string,N_BYTES);                    // if the file is available
-    //snprintf(buffer,N_BYTES,"Datalog: %s",file_string);   // format the first line and 
-    file_id.println(buffer);                                // write it to the file                            
+    file_id.println(buffer); //  if the file is available write it to the file                            
   }else {
-    strncat(buffer," Failed!",N_BYTES);                     // if the file did not open, skip the write and add an error message to the buffer
-     
-    //snprintf(buffer,N_BYTES,"Error Opening: %s",file_string);
+    strncat(buffer," Failed",N_BYTES); // if the file did not open, skip the write and add an error message to the buffer
   }
 
-  //strncat(buffer,file_string,N_BYTES);
+  //close the file before doing anything else (in case of power down we will still have access data file
+  file_id.close(); 
 
+  // print the buffer to the serial monitor
+  if (verbose) Serial.println(buffer);
+  
+}
+
+/********************************************************************/
+/*  subroutine function 'initSensors' prepares the sensors boards   */
+/********************************************************************/
+void initSensors(void)
+{
+
+  char buffer[N_BYTES];
+
+  // Initialize the BNO055 Absolute Orientation Board 
+  if(bno.begin())
+  {
+    strncpy(buffer,"BNO055 Ready",N_BYTES); // There was a problem detecting the BNO055 -> check the connections 
+    //while(1); // wait here forever ??? is this really how we should handle this?
+  }else{
+    strncpy(buffer,"BNO055 Error",N_BYTES); // There was a problem detecting the BNO055 -> check the connections  
+  } 
+
+  delay(100);
+
+  // Use external crystal for better accuracy 
+  bno.setExtCrystalUse(true);
+   
+  // Display some basic information on this sensor - not used currently 
+  //displaySensorDetails();
+
+  // open the file and instanstiate a file identifier
+  File file_id = SD.open(file_string, FILE_WRITE);
+
+  if (file_id) {                                          // if the file is available
+    file_id.println(buffer);                              // write it to the file                            
+  }else {
+    strncpy(buffer,"Error Opening:",N_BYTES);
+    strncat(buffer,file_string,N_BYTES);
+  }
   file_id.close(); //close the file before doing anything else (in case of power down we will still have access data file
 
   if (verbose) Serial.println(buffer);
-  
 }
 
 /****************************************************************************************************/
@@ -197,59 +213,42 @@ void printEvent(sensors_event_t* event) {
     dtostrf(event->acceleration.x,O_BYTES,P_BYTES,data_x); // convert float to C string 
     dtostrf(event->acceleration.y,O_BYTES,P_BYTES,data_y);  
     dtostrf(event->acceleration.z,O_BYTES,P_BYTES,data_z); 
-    //snprintf(buffer,N_BYTES,"Accelerometer: %s, %s, %s;",data_x, data_y, data_z); // print formatted values to the buffer
-    //strncpy(buffer,"Accelerometer: ",N_BYTES);  
     strncpy(buffer,"Accel:",N_BYTES);
   }
   else if (event->type == SENSOR_TYPE_MAGNETIC_FIELD) {
     dtostrf(event->magnetic.x,O_BYTES,P_BYTES,data_x); // convert float to C string 
     dtostrf(event->magnetic.y,O_BYTES,P_BYTES,data_y); 
     dtostrf(event->magnetic.z,O_BYTES,P_BYTES,data_z); 
-    //snprintf(buffer,N_BYTES,"Magnometer: %s, %s, %s;",data_x, data_y, data_z);
-    //strncpy(buffer,"Magnometer: ",N_BYTES);
     strncpy(buffer,"Mag:",N_BYTES);
   }
   else if (event->type == SENSOR_TYPE_LINEAR_ACCELERATION) {
     dtostrf(event->acceleration.x,O_BYTES,P_BYTES,data_x); // convert float to C string 
     dtostrf(event->acceleration.y,O_BYTES,P_BYTES,data_y); 
     dtostrf(event->acceleration.z,O_BYTES,P_BYTES,data_z); 
-    //snprintf(buffer,N_BYTES,"LinearAcceleration: %s, %s, %s;",data_x, data_y, data_z);   
-    //strncpy(buffer,"LinearAcceleration: ",N_BYTES);
     strncpy(buffer,"LinAccel:",N_BYTES);
   }
   else if (event->type == SENSOR_TYPE_GYROSCOPE) {
     dtostrf(event->gyro.x,O_BYTES,P_BYTES,data_x); // convert float to C string 
     dtostrf(event->gyro.y,O_BYTES,P_BYTES,data_y); 
     dtostrf(event->gyro.z,O_BYTES,P_BYTES,data_z); 
-    //snprintf(buffer,N_BYTES,"AngularVelocity: %s, %s, %s;",data_x, data_y, data_z);
-    //strncpy(buffer,"AngularVelocity: ",N_BYTES);
     strncpy(buffer,"AngVel:",N_BYTES);
   }
   else if (event->type == SENSOR_TYPE_ORIENTATION) {
     dtostrf(event->orientation.x,O_BYTES,P_BYTES,data_x); // convert float to C string 
     dtostrf(event->orientation.y,O_BYTES,P_BYTES,data_y); 
     dtostrf(event->orientation.z,O_BYTES,P_BYTES,data_z); 
-    //snprintf(buffer,N_BYTES,"AngularPosition: %s, %s, %s;",data_x, data_y, data_z);
-    //strncpy(buffer,"AngularPosition: ",N_BYTES);
     strncpy(buffer,"AngPos:",N_BYTES);
   }
   else if (event->type == SENSOR_TYPE_ROTATION_VECTOR) {
     dtostrf(event->gyro.x,O_BYTES,P_BYTES,data_x); // convert float to C string 
     dtostrf(event->gyro.y,O_BYTES,P_BYTES,data_y); 
     dtostrf(event->gyro.z,O_BYTES,P_BYTES,data_z); 
-    //snprintf(buffer,N_BYTES,"RotationVector: %s, %s, %s;",data_x, data_y, data_z);
-    //strncpy(buffer,"RotationVector: ",N_BYTES);
     strncpy(buffer,"RotVec:",N_BYTES);
   }
 
   snprintf(tmp,N_BYTES,"%s,%s,%s;",data_x, data_y, data_z); // print formatted values to the buffer
   strncat(buffer,tmp,N_BYTES);
   
-  //strncat(buffer,"%s, %s, %s;",data_x, data_y, data_z); // print formatted values to the buffer
-
-  //else { // this unknown, else case is not needed
-  //  snprintf(buffer,N_BYTES,"Unknown: ");
-  // }
 
   //x = event->acceleration.x; // this is the original way I was building the buffer string, it seems simple 
   //y = event->acceleration.y; // using Strings uses too much memory and/or code space, and I think that the cast to String is most costly
@@ -273,7 +272,6 @@ void printEvent(sensors_event_t* event) {
   }else {
     strncpy(buffer,"Error Opening:",N_BYTES);
     strncat(buffer,file_string,N_BYTES);
-    //snprintf(buffer,N_BYTES,"Error Re-Opening: %s",file_string);
   }
   file_id.close(); //close the file before doing anything else (in case of power down we will still have access data file
 
@@ -292,10 +290,6 @@ bool printHeader() {
   // uint8_t system, gyro, accel, mag = 0;
   // bno.getCalibration(&system, &gyro, &accel, &mag);
 
-  // instantiate and assemble a string for the data entry header // we are not using String anymore to save resources
-  //String buffer = "Data Log Entry:"+String(entry_number)+"\r\nBNO055 Temp:"+String(boardTemp) // commented for debug
-  //  +"\r\nCalibration[Sys,Gyro,Accel,Mag]:"+String(system)+","+String(gyro)+","+String(accel)+","+String(mag); // commented for debug
-
   char buffer[N_BYTES];
   //dtostrf(system,O_BYTES,P_BYTES,data_z);  // only needed for floats
   snprintf(buffer,N_BYTES,"Entry: %i;",entry_number);
@@ -308,7 +302,6 @@ bool printHeader() {
   }else {
     strncpy(buffer,"Error Opening: ",N_BYTES);
     strncat(buffer,file_string,N_BYTES);
-    //snprintf(buffer,N_BYTES,"Error Re-Opening: %s",file_string);
   }
   file_id.close(); //close the file before doing anything else (in case of power down we will still have access data file
 
@@ -325,8 +318,7 @@ bool printHeader() {
 bool printFooter(void) {
   
   char buffer[N_BYTES];
-  //dtostrf(system,O_BYTES,P_BYTES,data_z);  // only needed for floats
-  //snprintf(buffer,N_BYTES,"Entry Complete;");
+
   strncpy(buffer,N_BYTES,"Entry Complete;");
 
   // open the file and instanstiate a file identifier
