@@ -13,14 +13,14 @@
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BNO055.h>
-#include <utility/imumaths.h>
-#include <SPI.h>
+#include <Adafruit_DPS310.h>
+//#include <utility/imumaths.h>
+//#include <SPI.h>
 #include <SD.h>
-#include <stdio.h>
-#include <string.h>
+//#include <stdio.h>
+//#include <string.h>
 
-#define LOOP_DELAY_MS 100 // main loop() delay
-
+#define LOOP_DELAY 100 // main loop() delay
 #define M_BYTES 12 // length of file name in bytes
 #define N_BYTES 40 // length of file serial buffer in bytes
 #define O_BYTES 7 // length of single data (field width) in bytes 
@@ -28,23 +28,27 @@
 
 int chip_select = 10;     // cs is pin 10 for nano
 int entry_number = 0;     // number of the first row in the data file 
-int file_number = 5;      // change this number to create a new file
+int file_number = 0;      // change this number to create a new file
 bool delete_file = false;  // true: create new file, false: append existing file
 bool verbose = true; // true: print the rows of data to the serial monitor for debugging, false: turn off print to save memory (SRAM ?)
 //bool sd_status = true; // operation status of the sd module and card
-
-int c_time=0;
-//int c_cnt=0; 
-//volatile uint16_t ofcnt=0;
-volatile float   time_sec=0;
-int prescale=1;
-
 char file_string[M_BYTES];
-
 //char buffer[N_BYTES];  // defined locally instead 
 
-// Check I2C device address and correct line below (by default address is 0x29 or 0x28)                                  
+//int c_time=0;
+//int c_cnt=0; 
+//volatile uint16_t ofcnt=0;
+volatile float time_sec=0;
+int prescale;
+
+// instantiate object for BNO055 sensor board (by default address is 0x29 or 0x28)                                  
 Adafruit_BNO055 bno = Adafruit_BNO055(55, 0x28); // (id, address)
+
+// instantiate object for DPS310 sensor board - disabled for now
+Adafruit_DPS310 dps;
+//Adafruit_Sensor *dps_temp = dps.getTemperatureSensor();
+//Adafruit_Sensor *dps_pressure = dps.getPressureSensor();
+
 
 /***************************************************************/
 /*   initialization function 'setup' runs once before 'loop'   */
@@ -57,9 +61,18 @@ void setup() {
   Serial.begin(38400);
   while (!Serial); // wait for serial port to connect. Needed for native USB port only
  
-  // Initialize ISR Timer 1
+  // Initialize ISR Timer 1 for timestamps and scheduling
   TCCR1A  = 0b00000000; 
-  TCCR1B  = 0b00000001; // timer prescale = 1 (no prescale)
+  //TCCR1B  = 0b00000001; // timer prescale = 1 (no prescale)
+  
+  prescale=1;
+  TCCR1B | (1<<CS10);  //CS12:0=001 -> prescale = 1 -> 244.5 Hz          
+  TCCR1B &= ~(1<<CS11) & ~(1<<CS12);                  
+  
+  //prescale=8; // slow the timer down by a factor of 8, I am not sure that there are any benfits to this. just testing
+  //TCCR1B | (1<<CS11) ; //CS12:0=010 -> prescale = 8 -> 30.5 Hz       
+  //TCCR1B &= ~(1<<CS10) & ~(1<<CS12); 
+  
   TIMSK1  = 0b00000001; // overflow interrupt enable 
   
   initFile();
@@ -73,11 +86,13 @@ void setup() {
 /**********************************************************/
 void loop() {
 
-
   // write one entry of sensor data to the SD card  
+  while (!(TIFR1&0b00000001)); //polling overflow to wait on timer
   printSensors();
 
-  delay(LOOP_DELAY_MS);
+  //delay(LOOP_DELAY);
+
+
   
 }
 
@@ -140,14 +155,34 @@ void initSensors(void)
 {
 
   char buffer[N_BYTES];
+ 
+  delay(1000);
+   
+  //Serial.println("DPS310");
+  if (! dps.begin_I2C(0x77)) {             // Can pass in I2C address here
+  //if (! dps.begin_SPI(DPS310_CS)) {  // If you want to use SPI
+    Serial.println("Failed to find DPS");
+    while (1) yield();
+  }
+  dps.configurePressure(DPS310_64HZ, DPS310_64SAMPLES);
+  dps.configureTemperature(DPS310_64HZ, DPS310_64SAMPLES);
+  //Serial.println("DPS310 Barometric Pressure and Temperature Sensor: Initialized\r\n");
+
+  if(dps.begin_I2C(0x77))
+  {
+    strncpy(buffer,"DPS310 Ready\n",N_BYTES); // There was a problem detecting the BNO055 -> check the connections 
+    //while(1); // wait here forever ??? is this really how we should handle this?
+  }else{
+    strncpy(buffer,"DPS310 Error\n",N_BYTES); // There was a problem detecting the BNO055 -> check the connections  
+  } 
 
   // Initialize the BNO055 Absolute Orientation Board 
   if(bno.begin())
   {
-    strncpy(buffer,"BNO055 Ready",N_BYTES); // There was a problem detecting the BNO055 -> check the connections 
+    strncat(buffer,"BNO055 Ready\n",N_BYTES); // There was a problem detecting the BNO055 -> check the connections 
     //while(1); // wait here forever ??? is this really how we should handle this?
   }else{
-    strncpy(buffer,"BNO055 Error",N_BYTES); // There was a problem detecting the BNO055 -> check the connections  
+    strncat(buffer,"BNO055 Error\n",N_BYTES); // There was a problem detecting the BNO055 -> check the connections  
   } 
 
   delay(100);
@@ -173,7 +208,7 @@ void initSensors(void)
 }
 
 /****************************************************************************************************/
-/*   subroutine function 'printData' calls 'getEvent' and 'printEvent' for each information type    */
+/*   subroutine function 'printSensors' calls 'getEvent' and 'printEvent' for each information type    */
 /****************************************************************************************************/
 bool printSensors(void) {
   
@@ -181,22 +216,33 @@ bool printSensors(void) {
   printHeader();
 
   // instanstiate objects for different sensor types 
-  sensors_event_t accelerometerData,  magnometerData, gravFieldData, linAccelData, angVelData, angPosData; 
+  //sensors_event_t accelerometerData,  magnometerData;
+  sensors_event_t gravFieldData, linAccelData, angVelData, angPosData; 
   
-  bno.getEvent(&accelerometerData, Adafruit_BNO055::VECTOR_ACCELEROMETER);  // direct sensor data
-  bno.getEvent(&magnometerData, Adafruit_BNO055::VECTOR_MAGNETOMETER);
-  bno.getEvent(&gravFieldData, Adafruit_BNO055::VECTOR_GRAVITY);            // derived quantities
-  bno.getEvent(&linAccelData, Adafruit_BNO055::VECTOR_LINEARACCEL);
-  bno.getEvent(&angVelData, Adafruit_BNO055::VECTOR_GYROSCOPE);
-  bno.getEvent(&angPosData, Adafruit_BNO055::VECTOR_EULER);
+
+  //bno.getEvent(&accelerometerData, Adafruit_BNO055::VECTOR_ACCELEROMETER);  // direct sensor data
+  //bno.getEvent(&magnometerData, Adafruit_BNO055::VECTOR_MAGNETOMETER);
+  //bno.getEvent(&gravFieldData, Adafruit_BNO055::VECTOR_GRAVITY);            // derived quantities
+  //bno.getEvent(&linAccelData, Adafruit_BNO055::VECTOR_LINEARACCEL);
+  //bno.getEvent(&angVelData, Adafruit_BNO055::VECTOR_GYROSCOPE);
+  //bno.getEvent(&angPosData, Adafruit_BNO055::VECTOR_EULER);
 
   // print the bulk of the data to the file
-  printEvent(&accelerometerData);
-  printEvent(&magnometerData);
-  printEvent(&gravFieldData);
-  printEvent(&linAccelData);
-  printEvent(&angVelData); 
-  printEvent(&angPosData);
+  //printEvent(&accelerometerData);
+  //printEvent(&magnometerData);
+  //printEvent(&gravFieldData);
+  //printEvent(&linAccelData);
+  //printEvent(&angVelData); 
+  //printEvent(&angPosData);
+
+   
+
+  //dps.getEvents(&temp_event,&pres_event);
+
+  //printEvent(&temp_event);
+  //printEvent(&pres_event);
+
+  printDPS310();
   
   // print a closing line after the sensor data
   //printFooter(); // To save resources we do not need a footer. The next header will do just as much good.
@@ -252,11 +298,26 @@ void printEvent(sensors_event_t* event) {
     dtostrf(event->gyro.y,O_BYTES,P_BYTES,data_y); 
     dtostrf(event->gyro.z,O_BYTES,P_BYTES,data_z); 
     strncpy(buffer,"RotVec:",N_BYTES);
+  }/*
+  else if (event->type == 13) {
+    while(!dps.temperatureAvailable());
+    dtostrf(event->temperature,O_BYTES,P_BYTES,data_x);
+    strncpy(buffer,"Temp:",N_BYTES);
+    strncat(buffer,data_x,N_BYTES);
+    Serial.println((String)event->temperature);    
+  }else if (event->type == 6) {
+    //dtostrf(event->temperature,O_BYTES,P_BYTES,data_x); // convert float to C string 
+    while(!dps.pressureAvailable());
+    strncpy(buffer,"Pres:",N_BYTES);
+    Serial.println(event->pressure);
+  }
+  */
+  if ((event->type!=13)&&(event->type!=6)){
+    snprintf(tmp,N_BYTES,"%s,%s,%s;",data_x, data_y, data_z); // print formatted values to the buffer
+    strncat(buffer,tmp,N_BYTES);
   }
 
-  snprintf(tmp,N_BYTES,"%s,%s,%s;",data_x, data_y, data_z); // print formatted values to the buffer
-  strncat(buffer,tmp,N_BYTES);
-  
+  //Serial.println(event->type);
 
   //x = event->acceleration.x; // this is the original way I was building the buffer string, it seems simple 
   //y = event->acceleration.y; // using Strings uses too much memory and/or code space, and I think that the cast to String is most costly
@@ -287,6 +348,68 @@ void printEvent(sensors_event_t* event) {
   
 }
 
+
+bool printDPS310(){
+
+  char buffer[N_BYTES];   // buffer to store a line a data before writing to sd card file (or serial monitor) 
+  //char tmp[25]; // this could be 3*(O_BYTES+1) -> 24 // i tired to think of a clean way without this second buffer but ... try again soon
+
+  
+  //else if((event->type == SENSOR_TYPE_TEMPERATURE)&&dps.temperatureAvailable()){
+    //dtostrf(event->temperature,O_BYTES,P_BYTES,data_x);
+    //dps_temp->getEvent(&temp_event);
+  //if (event->type==13){
+  //Serial.println(event->type);
+  //}
+  //}
+
+  sensors_event_t temp_event, pres_event;
+    
+  dps.getEvents(&temp_event, &pres_event);
+
+  while (!dps.temperatureAvailable() || !dps.pressureAvailable())
+
+  //if (event->type == 13) {
+   // while(!dps.temperatureAvailable());
+    //dtostrf(event->temperature,O_BYTES,P_BYTES,data_x);
+  strncpy(buffer,"Temp:",N_BYTES);
+  //strncat(buffer,data_x,N_BYTES);
+  Serial.println(temp_event.temperature);    
+
+ // }else if (event->type == 6) {
+    //dtostrf(event->temperature,O_BYTES,P_BYTES,data_x); // convert float to C string 
+    //while(!dps.pressureAvailable());
+  strncat(buffer,"Pres:",N_BYTES);
+  Serial.println(pres_event.pressure);
+  
+
+  
+ /* if (dps.temperatureAvailable()) {
+    t_event->temperature;
+    //dps_temp->getEvent(temperature);
+    //Serial.print(F("Temperature = "));
+    //Serial.print(temp_event.temperature);
+    //Serial.println(" *C");
+    //Serial.println();
+  }
+
+  // Reading pressure also reads temp so don't check pressure
+  // before temp!
+  if (dps.pressureAvailable()) {
+    p_event  
+
+    //dps_pressure->getEvent(pressure);
+    //Serial.print(F("Pressure = "));
+    //Serial.print(pressure_event.pressure);
+    //Serial.println(" hPa"); 
+    //xSerial.println();
+  } */
+  
+
+}
+
+
+
 /*************************************************************************************************/
 /*  subroutine 'printHeader' formats and writes the data entry header and calibration to file    */
 /*************************************************************************************************/
@@ -300,7 +423,7 @@ bool printHeader() {
   char buffer[N_BYTES];
   char time[10];
   dtostrf(time_sec,O_BYTES,P_BYTES,time);  // only needed for floats
-  snprintf(buffer,N_BYTES,"Entry: %i,Time:%s;",entry_number,time);
+  snprintf(buffer,N_BYTES,"Timestep:%i,%s;",entry_number,time);
 
   // open the file and instanstiate a file identifier
   File file_id = SD.open(file_string, FILE_WRITE);
@@ -354,6 +477,7 @@ ISR(TIMER1_OVF_vect) {
     // compute the running time in seconds using the system clock and prescale 
     time_sec=time_sec+1.0/16000000.0*65536*prescale; 
     //ofcnt++;
+
 }
 
 
