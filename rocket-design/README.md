@@ -38,7 +38,7 @@ Nosecone V3
   - parabolic nose profile added for reduced drag in sub-sonic flight
 
 <img src="png-images/nosecone_assembly5.png" width=300 align=center> <img src="png-images/nosecone_assembly4.png" width=300 align=center>
-<img src="png-images/nosecone_construction5.png" width=300 align=center> <img src="png-images/nosecone_construction6.png" width=300 align=center> <img src="png-images/nosecone_construction7.PNG" width=300 align=center>
+<img src="png-images/nosecone_construction5.png" width=300 align=center> <img src="png-images/nosecone_construction6.png" width=300 align=center> <img src="png-images/nosecone_construction7.png" width=300 align=center>
 
 ### Tail Design
 
