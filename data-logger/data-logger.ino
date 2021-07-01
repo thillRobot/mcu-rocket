@@ -73,9 +73,9 @@ void setup() {
 /**********************************************************/
 void loop() {
 
-  //printHeader();
-  
-  printData();
+
+  // write one entry of sensor data to the SD card  
+  printSensors();
 
   delay(LOOP_DELAY_MS);
   
@@ -175,7 +175,7 @@ void initSensors(void)
 /****************************************************************************************************/
 /*   subroutine function 'printData' calls 'getEvent' and 'printEvent' for each information type    */
 /****************************************************************************************************/
-bool printData(void) {
+bool printSensors(void) {
   
   // print the entry number and calibration data before printing sensor data
   printHeader();
@@ -287,7 +287,6 @@ void printEvent(sensors_event_t* event) {
   
 }
 
-
 /*************************************************************************************************/
 /*  subroutine 'printHeader' formats and writes the data entry header and calibration to file    */
 /*************************************************************************************************/
@@ -352,8 +351,9 @@ bool printFooter(void) {
 /******************************************************************/
 ISR(TIMER1_OVF_vect) {
 
+    // compute the running time in seconds using the system clock and prescale 
+    time_sec=time_sec+1.0/16000000.0*65536*prescale; 
     //ofcnt++;
-    time_sec=time_sec+1.0/16000000.0*65536*prescale; // 1/16e6*65536
 }
 
 
