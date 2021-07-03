@@ -8,7 +8,7 @@
 //--------------------------------------------------------------------------------------//
 
 // the current 'debug' goal is to reduce the code size so that I can use the full functionality
-// of both sensor board on the nano for nano-rocket
+// of both sensor board on the nano for nano-rocket - significant progress has been made 
 
 #include <Wire.h>
 //#include <Adafruit_Sensor.h>
