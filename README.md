@@ -129,3 +129,6 @@ Note: This is the README for Mission A: NANO-Rocket. To find information about a
   - this code has grown to a point where it needs its own repository, goodbye /mcu - 06/05/2021
   - see https://github.com/thillRobot/data-logger.git for the continuation of this project - 06/05/2021
   - used git branches to handle different MCUs, added branches mkr-master and nano-master - 06/05/2021
+  - tested nano-rocket - see launch data - fill in date soon
+  - optimized data-logger for code size (27386 bytes (89%)) and dynamic memory(69%) of dynamic memory) - ~06/25/2021 to 07/03/2021
+  - nano-rocket -> data-logger working with BNO055 (4 derived measurements?) and DPS310 (2 direct + 1 Derived Measurements?) - 07/03/2021
