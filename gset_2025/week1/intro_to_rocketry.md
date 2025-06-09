@@ -1,0 +1,10 @@
+# introduction to mcu-rocket
+
+Project introduction and basics of rocketry dicussion
+
+## Abstract (GSET 2025)
+Space travel is an exciting and important cross discipline engineering application essential for communication, defense, and exploration. Rockets are primarily used for deploying vehicles from earth, and the prediction and measurement of a rocket apogee, or maximum distance from earth, is critical for mission success. Participants will engage in an exciting engineering project including the design, fabrication, and launch of a custom model rocket with an on-board sensor suite and data acquisition payload for monitoring flight performance. The primary goals of the project are designing a rocket capable of successful launch with recovery and predicting and measuring the rocket apogee during flight. Engineering activities include 3D computer aided design (CAD), additive manufacturing and 3D printing, analytical and numerical analysis, computer programming with embedded systems, and empirical testing. Students will be exposed to and learn the basics of Solidworks for CAD, FDM 3D printing, Arduino MCUs and C++ programming, and rocket modeling and analysis.
+
+
+## Introduction to Rocketry 
+
