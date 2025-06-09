@@ -8,4 +8,23 @@ Space travel is an exciting and important cross discipline engineering applicati
 
 ## Introduction to Rocketry 
 
+[parts of a Rocket](https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/model-rockets/#parts-of-a-single-stage-model-rocket)
+
 [Guide to Rockets - Glenn Research Center](https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/guide-to-rockets/)
+
+
+## Introduction to 3D CAD 
+
+- Discuss Backgrounds
+
+- Introduce Solidworks
+
+- Topics:
+  
+  - 2D Sketching
+  - 3D Features  
+    - Extrude 
+    - Revolve 
+    - Extrude Cut
+    - Hole
+  - Saving a Part 
