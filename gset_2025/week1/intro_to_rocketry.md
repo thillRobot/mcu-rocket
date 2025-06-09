@@ -8,3 +8,4 @@ Space travel is an exciting and important cross discipline engineering applicati
 
 ## Introduction to Rocketry 
 
+[Guide to Rockets - Glenn Research Center](https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/guide-to-rockets/)
