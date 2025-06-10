@@ -49,7 +49,28 @@ $$\dot{m}=\rho AV=constant$$
 
 ... Newton's 2nd law was applied to the inviscid (frictionless) and steady flow of a fluid particle. For the streamwise direction, the result for either compressible or incompressible flows is
 
-$$dp +\frac{1}{2}\rho d\left(V^2\right) +\gamma dz=0$$
+$$dp +\frac{1}{2}\rho d\left(V^2\right) +\gamma dz=0$$ 
+
+... For ideal gas flow, the potential engergy difference term, $\gamma dz$, can be dropped ... an appropriate equation of motion in the streamwize direction for the steady, one-dimensional, and isentropic (adiabatic and frictionless) flow of and ideal gas is obtained ...
+
+$$\frac{dp}{\rho V^2} = -\frac{dV}{V}$$
+
+If we form the logarith of both sides of the continuity equation, the result is
+
+$$ln \rho +ln A +lnV = constant$$
+
+differentiate (take the derivative)
+
+$$\frac{d\rho}{\rho} +\frac{dA}{A} +\frac{dV}{V}= 0$$
+
+rearange
+
+$$-\frac{dV}{V}=\frac{d\rho}{\rho}+\frac{dA}{A}$$
+
+now combine the equations
+
+$$\frac{dp}{\rho V^2}\left(1-\frac{V^2}{dp/d\rho} \right)=frac{dA}{A}$$
+
 
 ## Introduction to 3D CAD 
 
