@@ -69,29 +69,6 @@ $$-\frac{dV}{V}=\frac{d\rho}{\rho}+\frac{dA}{A}$$
 
 now combine the equations
 
-$$\frac{dp}{\rho V^2}\left(1-\frac{V^2}{dp/d\rho} \right)=frac{dA}{A}$$
+$$\frac{dp}{\rho V^2}\left(1-\frac{V^2}{dp/d\rho} \right)=\frac{dA}{A}$$
 
 
-## Introduction to 3D CAD 
-
-- Discuss Backgrounds
-
-- Introduce Solidworks
-
-- Topics:
-  
-  - [] 2D Sketching
-    - [x] basic drawing
-    - [x] sketch constraints  
-      - [x] coincident 
-      - [] orthonogal
-      - [] parallel 
-      - [] colinear
-  - [] 3D Features  
-    - [x] Extrude 
-    - [] Revolve 
-    - [] Extrude Cut
-    - [] Hole
-  - [x] Saving a Part
-    - [x] save as Solidworks part file .sldprt (DSS proprietary)
-    - [x] save as stereolithography file .stl (standard - [wikipedia](https://en.wikipedia.org/wiki/STL_(file_format)))
