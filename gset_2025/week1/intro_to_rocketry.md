@@ -50,10 +50,18 @@ Consider flow through a converging nozzle (a pipe with reducing cross sectional 
 
 - Topics:
   
-  - 2D Sketching
-  - 3D Features  
-    - Extrude 
-    - Revolve 
-    - Extrude Cut
-    - Hole
-  - Saving a Part 
+  - [] 2D Sketching
+    - [x] basic drawing
+    - [x] sketch constraints  
+      - [] coincident 
+      - [] orthonogal
+      - [] parallel 
+      - [] colinear
+  - [] 3D Features  
+    - [x] Extrude 
+    - [] Revolve 
+    - [] Extrude Cut
+    - [] Hole
+  - [x] Saving a Part
+    - [] save as Solidworks part file .sldprt (DSS proprietary)
+    - [] save as stereolithography file .stl (standard - [wikipedia](https://en.wikipedia.org/wiki/STL_(file_format)))
