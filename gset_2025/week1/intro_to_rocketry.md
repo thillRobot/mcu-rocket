@@ -73,4 +73,4 @@ $$\frac{dp}{\rho V^2}\left(1-\frac{V^2}{dp/d\rho} \right)=\frac{dA}{A}$$
 
 since the flow being considered is isentropic, the speed of sound is related to variations of pressure with density..
 
-$$c=\sqrt{\left(\frac{\partial p}{\partial \rho}\right)}$$
+$$c=\sqrt{\left(\frac{\partial p}{\partial \rho}\right)_s}$$
