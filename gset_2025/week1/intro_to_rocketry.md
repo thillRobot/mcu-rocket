@@ -9,6 +9,23 @@ Space travel is an exciting and important cross discipline engineering applicati
 ## Introduction to Rocketry 
 
 [parts of a Rocket](https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/model-rockets/#parts-of-a-single-stage-model-rocket)
+  
+- Forces on a Rocket
+$$\dot{m}V_e$$
+
+- Rocket Trust
+
+- Rocket Weight
+
+
+## Rocket Nozzle
+
+What is the purpose of the nozzle on the model rocket? How does the nozzle work?
+
+- the nozzle increases the exit velocity of the gas which is directly proportional to the thrust
+
+Consider flow through a converging nozzle (a pipe with reducing cross sectional area). Is the output flow expected the be faster or slower than the input flow? How can we find the answser?  
+
 
 [Guide to Rockets - Glenn Research Center](https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/guide-to-rockets/)
 
