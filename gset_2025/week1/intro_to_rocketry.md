@@ -10,13 +10,14 @@ Space travel is an exciting and important cross discipline engineering applicati
 
 [parts of a Rocket](https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/model-rockets/#parts-of-a-single-stage-model-rocket)
   
-- Forces on a Rocket
+### Forces on a Rocket
 
   - Thrust
 
   - Weight - force from gravity, applied at center of gravity (CG) towards earth
 
 Force from gravity:
+
 $$F_w=mass \times gravity = mg$$
 
   - Drag - force from air in rocket direction    
@@ -26,18 +27,24 @@ $$F_w=mass \times gravity = mg$$
 - Rocket Trust
 
 Rocket Thrust Equation:
+
 $$F=\dot{m}V_e+(p_e-p_o)A_e$$
 
 - Rocket Weight
 
 
-## Rocket Nozzle
+### Rocket Nozzle
 
 What is the purpose of the nozzle on the model rocket? How does the nozzle work?
 
 - the nozzle increases the exit velocity of the gas which is directly proportional to the thrust
 
 Consider flow through a converging nozzle (a pipe with reducing cross sectional area). Is the output flow expected the be faster or slower than the input flow? How can we find the answser?  
+
+When a fluid flows steadily through a conduit that has a flow cross-sectional area that varies with the axial distance, the conservation of mass (continuity) equation
+
+$$\dot{m}=\rho AV=constant$$
+
 
 
 [Guide to Rockets - Glenn Research Center](https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/guide-to-rockets/)
