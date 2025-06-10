@@ -96,7 +96,7 @@ we can conlcude for subsonic flows:
 and for supersonic flows:
 
 
-## Reference
+### References
 - Text and derivation from Fundamentals of Fluid Mechanics. Munson, Young, Okiishi, 5th edition Pg. 629-630
 
 
