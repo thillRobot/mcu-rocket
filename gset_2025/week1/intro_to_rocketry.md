@@ -16,7 +16,7 @@ Space travel is an exciting and important cross discipline engineering applicati
 
   - Weight - force from gravity, applied at center of gravity (CG) towards earth
 
-    $$ f_{weight}=mass*gravity=m*g$$
+$$f_{weight}=mass*gravity=m*g$$
 
   - Drag - force from air in rocket direction    
 
@@ -53,7 +53,7 @@ Consider flow through a converging nozzle (a pipe with reducing cross sectional 
   - [] 2D Sketching
     - [x] basic drawing
     - [x] sketch constraints  
-      - [] coincident 
+      - [x] coincident 
       - [] orthonogal
       - [] parallel 
       - [] colinear
@@ -63,5 +63,5 @@ Consider flow through a converging nozzle (a pipe with reducing cross sectional 
     - [] Extrude Cut
     - [] Hole
   - [x] Saving a Part
-    - [] save as Solidworks part file .sldprt (DSS proprietary)
-    - [] save as stereolithography file .stl (standard - [wikipedia](https://en.wikipedia.org/wiki/STL_(file_format)))
+    - [x] save as Solidworks part file .sldprt (DSS proprietary)
+    - [x] save as stereolithography file .stl (standard - [wikipedia](https://en.wikipedia.org/wiki/STL_(file_format)))
