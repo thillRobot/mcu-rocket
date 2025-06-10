@@ -11,9 +11,21 @@ Space travel is an exciting and important cross discipline engineering applicati
 [parts of a Rocket](https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/model-rockets/#parts-of-a-single-stage-model-rocket)
   
 - Forces on a Rocket
-$$\dot{m}V_e$$
+
+  - Thrust
+
+  - Weight - force from gravity, applied at center of gravity (CG) towards earth
+
+    $$ f_{weight}=mass*gravity=m*g$$
+
+  - Drag - force from air in rocket direction    
+
+  - Lift - force from air orthogonal to rocket direction, similar to airplane lift 
 
 - Rocket Trust
+
+Rocket Thrust Equation:
+$$F=\dot{m}V_e+(p_e-p_o)A_e$$
 
 - Rocket Weight
 
