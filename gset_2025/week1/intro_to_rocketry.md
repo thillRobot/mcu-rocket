@@ -8,10 +8,6 @@ Space travel is an exciting and important cross discipline engineering applicati
 
 ## Introduction to Rocketry 
 
-[parts of a Rocket](https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/model-rockets/#parts-of-a-single-stage-model-rocket)
-  
-[Guide to Rockets - Glenn Research Center](https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/guide-to-rockets/)
-
 ### Forces on a Rocket
 
   - Thrust
@@ -99,5 +95,7 @@ and for supersonic flows:
 ### References
 - Text and derivation from Fundamentals of Fluid Mechanics. Munson, Young, Okiishi, 5th edition Pg. 629-630
 
-
+- [parts of a Rocket](https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/model-rockets/#parts-of-a-single-stage-model-rocket)
+  
+- [Guide to Rockets - Glenn Research Center](https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/guide-to-rockets/)
 
