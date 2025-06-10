@@ -10,6 +10,8 @@ Space travel is an exciting and important cross discipline engineering applicati
 
 [parts of a Rocket](https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/model-rockets/#parts-of-a-single-stage-model-rocket)
   
+[Guide to Rockets - Glenn Research Center](https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/guide-to-rockets/)
+
 ### Forces on a Rocket
 
   - Thrust
@@ -41,14 +43,13 @@ What is the purpose of the nozzle on the model rocket? How does the nozzle work?
 
 Consider flow through a converging nozzle (a pipe with reducing cross sectional area). Is the output flow expected the be faster or slower than the input flow? How can we find the answser?  
 
-When a fluid flows steadily through a conduit that has a flow cross-sectional area that varies with the axial distance, the conservation of mass (continuity) equation
+When a fluid flows steadily through a conduit that has a flow cross-sectional area that varies with the axial distance, the conservation of mass (continuity) equation can be used to relate flow rates at different sections.
 
 $$\dot{m}=\rho AV=constant$$
 
+... Newton's 2nd law was applied to the inviscid (frictionless) and steady flow of a fluid particle. For the streamwise direction, the result for either compressible or incompressible flows is
 
-
-[Guide to Rockets - Glenn Research Center](https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/guide-to-rockets/)
-
+$$dp +\frac{1}{2}\rho d\left(V^2\right) +\gamma dz=0$$
 
 ## Introduction to 3D CAD 
 
