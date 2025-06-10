@@ -75,6 +75,15 @@ since the flow being considered is isentropic, the speed of sound is related to 
 
 $$c=\sqrt{\left(\frac{\partial p}{\partial \rho}\right)_s}$$
 
-combined with the mach number
+combined with the defintion of the mach number
 
 $$Ma=\frac{V}{c}$$
+
+yeilds
+
+$$\frac{dP}{\rho V^2}\left(1-Ma^2\right)=\frac{dA}{A}
+
+equations 11.42 and 11.47 merge to form 
+
+$$\frac{dV}{V}=-\frac{A}{A}\frac{1}{\left(1-Ma^2\right)}
+
