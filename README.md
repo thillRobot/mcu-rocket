@@ -15,16 +15,25 @@ Note: This is the master README that covers all hardware and missions. The missi
 
 ## Intended Schedule, GSET 2025
   - Week 1: Rocketry, CAD, and 3D printing
-    - Monday 6/09 - Project introduction and basics of rocketry discussion
-                  - Visit computer lab, Introduction to CAD with Solidworks, Draw Basic Shapes
-                  - Preliminary brainstorm rocket design, review previous designs 
-    - Tuesday 6/10 - Review Prelimary Designs
-                   - Discuss Fabrication, Intro to 3D printing
-                   - Visit Computer Lab, Draw Nose Cone, Draw Tail
-    - Thursday 6/12 - Rocketry Dynamics and Apogee Prediction Discussion
-                    - Visit Computer Lab, Update Designs, Draw sensor payload
-    - Friday 6/13 - Visit Computer Lab, Complete Rocket Designs
-                  - Final Design Review, Check for Manufacturability 
+    - Monday 6/09 
+      - Project introduction and basics of rocketry discussion
+      - Visit computer lab, Introduction to CAD with Solidworks, Draw Basic Shapes
+      - Preliminary brainstorm rocket design, review previous designs 
+      - Discuss Fabrication, Intro to 3D printing
+
+    - Tuesday 6/10
+      - Fluid Dynamics Lession, Nozzles 
+      - Brainstorm, Hand skecth prelimary designs, Discsuss printabilty
+      - Solidworks Assembly Demonstration, continue introduction
+      - Visit Computer Lab, Draw Nose Cone, Draw Tail
+      - Begin Solidworks install on personal computer if desired    
+
+    - Thursday 6/12 
+      - Rocketry Dynamics and Apogee Prediction Discussion
+      - Visit Computer Lab, Update Designs, Draw sensor payload
+    - Friday 6/13 
+      - Visit Computer Lab, Complete Rocket Designs
+      - Final Design Review, Check for Manufacturability 
                   
   - Week 2: Fabrication, Assembly, and Programming
     - Monday 6/16 - Begin Printing Parts
