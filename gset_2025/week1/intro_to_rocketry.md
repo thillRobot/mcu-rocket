@@ -85,7 +85,7 @@ $$\frac{dP}{\rho V^2}\left(1-Ma^2\right)=\frac{dA}{A} $$
 
 equations 11.42 and 11.47 merge to form 
 
-$$\frac{dV}{V}=-\frac{A}{A}\frac{1}{\left(1-Ma^2\right)} $$
+$$\frac{dV}{V}=-\frac{dA}{A}\frac{1}{\left(1-Ma^2\right)} $$
 
 we can also write an equation for the density change
 
