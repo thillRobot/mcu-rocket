@@ -16,8 +16,8 @@ Space travel is an exciting and important cross discipline engineering applicati
 
   - Weight - force from gravity, applied at center of gravity (CG) towards earth
 
-Force from Gravity:
-$$f_{weight}=mass*gravity=m*g$$
+Force from gravity:
+$$F_w=mass \times gravity = mg$$
 
   - Drag - force from air in rocket direction    
 
