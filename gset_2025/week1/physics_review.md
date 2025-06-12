@@ -97,13 +97,6 @@
  The mass moment of inertia, quantifies the mass and it spatial distribution.   
 
 
-## System Response and Stability
-
- What does it mean to say a system is stable? or unstable? how about quasi-stable?
-
- Attempt to derive the stability criterion for rocket (in 2D).
-  
-
 ## Fundamental Laws
 
 ### Newton's Laws
@@ -119,6 +112,17 @@
 3) Whenever one object exerts a force on another object, the second object exerts an equal and opposite on the first
 
 
+## System Response and Stability
+
+ What does it mean to say a system is stable? or unstable? how about quasi-stable?
+
+ Attempt to derive the stability criterion for rocket (in 2D).
+  
+
 #### References
 
 - Physics for Scientist and Engineerings, Vol. 1, Randall D. Knight
+
+- [Newton's Laws of Motion, Glenn Research Center](https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/newtons-laws-of-motion/)
+
+- System Dynamics, Palm 5th ed.
