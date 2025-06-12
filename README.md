@@ -14,7 +14,7 @@ Space travel is an exciting and important cross discipline engineering applicati
 Note: This is the master README that covers all hardware and missions. The missions are MCU and rocket specific so choose the branch appropriate to the MCU in use for specific code and mission data.
 
 ## Intended Schedule, GSET 2025
-  - :[Week 1](gset2025/week1) Rocketry, CAD, and 3D printing
+  - [Week 1](gset_2025/week1): Rocketry, CAD, and 3D printing
     - Monday 6/09 
       - Project introduction and basics of rocketry discussion
       - Visit computer lab, Introduction to CAD with Solidworks, Draw Basic Shapes
@@ -38,7 +38,7 @@ Note: This is the master README that covers all hardware and missions. The missi
       - Visit Computer Lab, Complete Rocket Designs
       - Final Design Review, Check for Manufacturability 
                   
-  - [Week 2](gset2025/week2): Fabrication, Assembly, and Programming
+  - [Week 2](gset_2025/week2): Fabrication, Assembly, and Programming
     - Monday 6/16 - Begin Printing Parts
     - Tuesday 6/17 - Begin Rocket Assembly
                    - Continue Printing Parts, re-print if needed 
@@ -48,7 +48,7 @@ Note: This is the master README that covers all hardware and missions. The missi
     - Friday 6/20 - Continue Programming and Testing
                   - Finish Rocket Assembly
 
-  - [Week 3](gset2025/week3): Launch and Presentation
+  - [Week 3](gset_2025/week3): Launch and Presentation
     - Monday 6/23 - Launch Day 1, Finish Programming Sensor Payload
     - Tuesday 6/24 - Launch Day 2, Review Collected Data
     - Wednesday 6/25 - Launch Day 3, Create Presentation 
