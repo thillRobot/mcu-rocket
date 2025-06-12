@@ -43,14 +43,22 @@
   Velocity:
   
   velocity is the time rate of change of position, or the slope
+  
   $$v(t)=\frac{\Delta position}{\Delta time}=\frac{\Delta x}{\Delta t}
 
   when considering very small changes, this becomes the derivative
+  
   $$v(t)=\frac{dx\left(t\right)}{dt}=\dot{v}$$
 
   the dot is used to indicate a derivate with respect to time
 
   Acceleration: 
+  
+  similarly, acceleration is the time rate of change of velocity
+
+  $$a(t)=\frac{\Delta velocity}{ \delta time} \rightarrow a(t)=\frac{dv(t)}{dt}=\dot{v}$$
+  
+  we can also write...  
 
 
 ## Force and Moment
