@@ -4,32 +4,32 @@
 
 ### Concepts
   
-    - Position, Velocity, and Acceleration
+  - Position, Velocity, and Acceleration
 
-    - Force and Moment
-    
-    - Mass and Inertia
+  - Force and Moment
+  
+  - Mass and Inertia
 
-    - System Response and Stability
+  - System Response and Stability
 
 ### Fundamental Laws
 
-    - Newton's Laws
+  - Newton's Laws
 
-    - Convervation of Energy
+  - Convervation of Energy
 
-    - Convervation of Mass
+  - Convervation of Mass
 
 
 ### Techniques or Skills
 
-    - Draw system schematics and Free Body Diagrams (FBDs)
+  - Draw system schematics and Free Body Diagrams (FBDs)
 
-    - Algebra, Trigonometry
+  - Algebra, Trigonometry
 
-    - Scalar and Vector Operations
+  - Scalar and Vector Operations
 
-    - Calculus     
+  - Calculus     
 
 
 ## Position, Velocity, and Acceleration
