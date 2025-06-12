@@ -17,17 +17,18 @@ The primary goals of the project are designing a rocket capable of successful la
 
   - Engine Mount
 
-  - Sensor System
+  - Flight Computer
+
+  - Sensor Package
 
 ### specify and buy
 
-  - Body Tube (Fuselage), 13in long, 1.5in diameter
+  - Body Tube (Fuselage), 13in long, 1.5in diameter, thickness?
   
   - Removable Solid Rocket Engine
 
-    C65 - ~7cm long, 1.8cm diameter 
-        -  
-
+    C6-5 - ~7cm long, 1.8cm diameter 
+    C11-3   
 
   - Launch Lug
 
@@ -38,19 +39,24 @@ The primary goals of the project are designing a rocket capable of successful la
   - Recovery wadding
 
 
-
 ## Nose Cone Payload
 
 ## Fins
 
 ## Engine Mount
 
-## Sensor System
+## Flight Computer
 
+     - Arduino Nano 3.0 Microcontroller (MCU) , CPU: Atmega 328p
+     - 5v Ready SD Breakout Board + 16 GB micro SD card
+     - Lipo Battery - 1s, 3.7v, 150/100 mAh 
+     - pcb, wires, connectors
 
+## Sensor Package:
 
-
-
+     - BNO055 - Absolute Orientation Sensor
+     - DPS310 - Barometric Pressure, Temperature Sensor
+   
 
 ### References
 
