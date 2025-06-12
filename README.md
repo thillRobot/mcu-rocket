@@ -29,7 +29,8 @@ Note: This is the master README that covers all hardware and missions. The missi
 
     - Thursday 6/12 
       - Physics Review: Newton's Laws, Forces, Moments, Inertia, Momentum, Impulse  
-      - Rocketry Dynamics and Apogee Prediction Discussion, rocket simulations
+      - Rocket Dynamics, Apogee Prediction Discussion, Center of Mass Calculation 
+      - Rocket Flight Simulations
       - Solidworks Assembly Demonstration
       - Introduce Flight Computer and Sensor Package, find or model pcbs
       - Visit Computer Lab, Update Designs, include flight computer and sensor package
