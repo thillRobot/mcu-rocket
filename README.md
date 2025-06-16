@@ -40,7 +40,8 @@ Note: This is the master README that covers all hardware and missions. The missi
       - Final Design Review, Check for Manufacturability 
                   
   - [Week 2](gset_2025/week2): Fabrication, Assembly, and Programming
-    - Monday 6/16  - Complete Rocket Designs
+    - Monday 6/16  - Show Flight Computer Circuit Diagram, discuss power 
+                   - Complete Rocket Designs
                    - Group Design Review, Check for Manufacturabilty and Flight
                    - Begin Printing Parts
 
