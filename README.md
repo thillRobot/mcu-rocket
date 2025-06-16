@@ -40,21 +40,25 @@ Note: This is the master README that covers all hardware and missions. The missi
       - Final Design Review, Check for Manufacturability 
                   
   - [Week 2](gset_2025/week2): Fabrication, Assembly, and Programming
-    - Monday 6/16  - Show Flight Computer Circuit Diagram, discuss power 
-                   - Complete Rocket Designs
-                   - Group Design Review, Check for Manufacturabilty and Flight
-                   - Begin Printing Parts
+    - Monday 6/16  
+      - Show Flight Computer Circuit Diagram, discuss power 
+      - Complete Rocket Designs
+      - Group Design Review, Check for Manufacturabilty and Flight
+      - Begin Printing Parts
 
-    - Tuesday 6/17 - Begin Rocket Assembly
-                   - Continue Printing Parts, re-print if needed
-                   - Dynamic analysis and simulation 
+    - Tuesday 6/17 
+      - Begin Rocket Assembly
+      - Continue Printing Parts, re-print if needed
+      - Dynamic analysis and simulation 
 
-    - Wednesday 6/18 - Intro to C++ for Arduino
-                     - Program and Test Sensor Payload
-                     - Contiue Rocket Assembly
+    - Wednesday 6/18 
+      - Intro to C++ for Arduino
+      - Program and Test Sensor Payload
+      - Contiue Rocket Assembly
 
-    - Friday 6/20 - Continue Programming and Testing
-                  - Finish Rocket Assembly
+    - Friday 6/20 
+      - Continue Programming and Testing
+      - Finish Rocket Assembly
 
   - [Week 3](gset_2025/week3): Launch and Presentation
     - Monday 6/23 - Launch Day 1, Finish Programming Sensor Payload
