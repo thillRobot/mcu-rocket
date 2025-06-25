@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 path = "launch-data/"
 
 #open the file 
-with open(path+'NANO-1-06-24-2021.txt', newline='') as csvfile:
+with open(path+'NANO-300-06-25-2025b.txt', newline='') as csvfile:
 	# create file identifiers for managing the input and output files
 	fid_in = csv.reader(csvfile, delimiter=' ', quotechar='|')
 	#fid_out = open(path+'NANO-1-06-24-2021-parsed.txt','w') #not using yet
