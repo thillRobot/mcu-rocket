@@ -7,12 +7,14 @@
 import csv
 import numpy as np
 import matplotlib.pyplot as plt
+import os
 
 #set the local path to the data files
 path = "launch-data/"
+filename = "NANO-0-06-25-2025b.txt"
 
 #open the file 
-with open(path+'NANO-0-06-25-2025b.txt', newline='') as csvfile:
+with open(os.path.join(path,filename), newline='') as csvfile:
     # create file identifiers for managing the input and output files
     fid_in = csv.reader(csvfile, delimiter=',', quotechar='|')
     #fid_out = open(path+'NANO-1-06-24-2021-parsed.txt','w') #not using yet
@@ -124,3 +126,15 @@ with open(path+'NANO-0-06-25-2025b.txt', newline='') as csvfile:
     plt.plot(time[tstart:tstop],altitude[tstart:tstop],linestyle='',marker='.')
     plt.ylabel('Temp., Pres., Alt.')
     plt.show() # show the figure
+
+    
+    filename=filename.split('.')[0]+'.csv'
+    # generate output csv file with parsed data
+    with open(os.path.join(path,filename), newline='') as csvfile:
+        writer=csv.writer(csvfile, delimiter=' ', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+        for i,row in enumerate(time):
+            writer.writerow(row_index[i], time[i])
+            
+             
+     
+        
