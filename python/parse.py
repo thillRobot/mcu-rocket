@@ -37,6 +37,10 @@ with open(path+'NANO-0-06-25-2025b.txt', newline='') as csvfile:
     rotationvector_y=[]
     rotationvector_z=[]
 
+    temperature=[]
+    pressure=[]
+    altitude=[]
+    
     # iterate through the rows of data
     for i,row in enumerate(fid_in):
         #do stuff only if the row is not empty
@@ -74,36 +78,49 @@ with open(path+'NANO-0-06-25-2025b.txt', newline='') as csvfile:
                  angular_velocity_x.append(float(values[0]))
                  angular_velocity_y.append(float(values[1]))
                  angular_velocity_z.append(float(values[2])) 
+ 
+            elif name=="Temp":  # repeat for the other sensor types
+                 temperature.append(float(values[0]))
+ 
+            elif name=="Pres":  # repeat for the other sensor types
+                 pressure.append(float(values[0]))
+            
+            elif name=="Alt":  # repeat for the other sensor types
+                 altitude.append(float(values[0]))
 
-        
     # fid_out.close() # coming soon
    
     print("row_index:", row_index) 
     print("time: ", time)
 
     N=300 # choose an index to stop at 
-    tstart=10
-    tstop=len(time)-2
+    tstart=700
+    tstop=len(time)-3
     t=np.arange(tstart,tstop) # create a range of values with numpy
 
     plt.figure(1) # setup a figure 1 window
 
-    plt.subplot(311) # setup a subplot (#rows #cols currentindex)
+    plt.subplot(411) # setup a subplot (#rows #cols currentindex)
     plt.plot(time[tstart:tstop],linear_acceleration_x[tstart:tstop],linestyle='',marker='.')
     plt.plot(time[tstart:tstop],linear_acceleration_y[tstart:tstop],linestyle='',marker='.')
     plt.plot(time[tstart:tstop],linear_acceleration_z[tstart:tstop],linestyle='',marker='.')
     plt.ylabel('Linear Acceleration')
     
-    plt.subplot(312) # setup a subplot (#rows #cols currentindex)
+    plt.subplot(412) # setup a subplot (#rows #cols currentindex)
     plt.plot(time[tstart:tstop],angular_position_x[tstart:tstop],linestyle='',marker='.')
     plt.plot(time[tstart:tstop],angular_position_y[tstart:tstop],linestyle='',marker='.')
     plt.plot(time[tstart:tstop],angular_position_z[tstart:tstop],linestyle='',marker='.')
     plt.ylabel('Angular Position')
 
-    plt.subplot(313)
+    plt.subplot(413)
     plt.plot(time[tstart:tstop],angular_velocity_x[tstart:tstop],linestyle='',marker='.')
     plt.plot(time[tstart:tstop],angular_position_y[tstart:tstop],linestyle='',marker='.')
     plt.plot(time[tstart:tstop],angular_position_z[tstart:tstop],linestyle='',marker='.')
     plt.ylabel('Angular Velocity')
 
+    plt.subplot(414)
+    #plt.plot(time[tstart:tstop],temperature[tstart:tstop],linestyle='',marker='.')
+    #plt.plot(time[tstart:tstop],pressure[tstart:tstop],linestyle='',marker='.')
+    plt.plot(time[tstart:tstop],altitude[tstart:tstop],linestyle='',marker='.')
+    plt.ylabel('Temp., Pres., Alt.')
     plt.show() # show the figure
