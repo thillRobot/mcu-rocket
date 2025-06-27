@@ -95,7 +95,7 @@ with open(os.path.join(path,filename), newline='') as csvfile:
     print("row_index:", row_index) 
     print("time: ", time)
 
-    N=300 # choose an index to stop at 
+    N=0 # choose an index to stop at 
     tstart=700
     tstop=len(time)-3
     t=np.arange(tstart,tstop) # create a range of values with numpy
@@ -128,13 +128,32 @@ with open(os.path.join(path,filename), newline='') as csvfile:
     plt.show() # show the figure
 
     
+    print(len(temperature))           
+    
     filename=filename.split('.')[0]+'.csv'
+    print('ouput filename:', filename)
     # generate output csv file with parsed data
-    with open(os.path.join(path,filename), newline='') as csvfile:
-        writer=csv.writer(csvfile, delimiter=' ', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-        for i,row in enumerate(time):
-            writer.writerow(row_index[i], time[i])
-            
+    with open(os.path.join(path,filename),'w', newline='') as csvfile:
+        writer=csv.writer(csvfile, delimiter=' ', quoting=csv.QUOTE_MINIMAL)
+        header='row_index,time,lin_accel_x,lin_accel_y,lin_accel_z,ang_pos_x,ang_pos_y,ang_pos_z,ang_vel_x,ang_vel_y,ang_vel_x,temp,pres,alt'
+        writer.writerow(header)
+        for i,index in enumerate(row_index[0:len(row_index)-3]):
+            print(i)
+            rowout=str(row_index[i])+','+str(time[i])+','\
+                  +str(linear_acceleration_x[i])+','\
+                  +str(linear_acceleration_y[i])+','\
+                  +str(linear_acceleration_z[i])+','\
+                  +str(angular_position_x[i])+','\
+                  +str(angular_position_y[i])+','\
+                  +str(angular_position_z[i])+','\
+                  +str(angular_velocity_x[i])+','\
+                  +str(angular_velocity_y[i])+','\
+                  +str(angular_velocity_z[i])+','\
+                  +str(temperature[i])+','\
+                  +str(pressure[i])+','\
+                  +str(altitude[i])
+            writer.writerow(rowout)
+ 
              
      
         
