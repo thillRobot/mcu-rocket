@@ -1,0 +1,6 @@
+"#","Reference","Qty","Value","Footprint","DNP"
+"1","BT1","1","Battery_Cell","Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Horizontal",""
+"2","J1, J2","2","Conn_01x15_Socket","Connector_PinSocket_2.54mm:PinSocket_1x15_P2.54mm_Vertical",""
+"3","J3","1","Conn_01x08_Socket","Connector_PinSocket_2.54mm:PinSocket_1x08_P2.54mm_Vertical",""
+"4","J4","1","Conn_01x07_Socket","Connector_PinSocket_2.54mm:PinSocket_1x07_P2.54mm_Vertical",""
+"5","J5","1","Conn_01x06_Socket","Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical",""
